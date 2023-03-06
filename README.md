@@ -10,5 +10,7 @@ A practical implementation of path finding and behaviour trees in a military set
 * AI squad can attack while taking cover
 * refer to amazing-proposal-that-was-totally-not-written-last-minute-before-submission for further functionalities
 
-## Classes and Modules
+## Classes and Interfaces
 ### Soldier
+### Behaviour Tree
+### Node
