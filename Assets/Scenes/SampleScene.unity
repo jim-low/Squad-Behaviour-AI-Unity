@@ -503,6 +503,46 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1895400417 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 774316168927953372, guid: 76195a37eeaca5143b1fde9c3b46cdcd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1888061937826827757}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2045492877 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 374597883409106160, guid: 76195a37eeaca5143b1fde9c3b46cdcd,
+    type: 3}
+  m_PrefabInstance: {fileID: 1888061937826827757}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2045492878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045492877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11126a6c17f83bf4f9610f93700d594b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visor: {fileID: 1895400417}
+  sightRange: 43.2
+  sightAngle: 30
+  surroundingAwarenessRange: 9.2
+  keepDistance: 2.01
+  followDistance: 20
+  shootDistance: 43.2
+  allyLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  coverLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1001 &1888061937826827757
 PrefabInstance:
   m_ObjectHideFlags: 0
