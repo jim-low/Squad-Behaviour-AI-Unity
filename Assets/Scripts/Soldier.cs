@@ -37,6 +37,7 @@ public class Soldier : MonoBehaviour
         
     }
 
+    // this is just drawing a bunch of things, nothing special lmao
     void OnDrawGizmos()
     {
         // field of view
