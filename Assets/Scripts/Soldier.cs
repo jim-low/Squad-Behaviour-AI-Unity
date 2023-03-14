@@ -22,22 +22,24 @@ public class Soldier : MonoBehaviour
     private int ammo;
     private const int MAX_AMMO = 30;
     private float damage;
-    private List<Transform> coverObjects;
-    private List<Transform> enemiesSpotted;
+    [SerializeField] private List<Transform> coverObjects;
+    [SerializeField] private List<Transform> enemiesSpotted;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        health = 100;
+        ammo = 30;
+        damage = 5;
     }
 
     // Update is called once per frame
     void Update()
     {
-        DetectEnemy();
+        DetectEnemies();
     }
 
-    void DetectEnemy()
+    void DetectEnemies()
     {
         if (Physics.CheckSphere(transform.position, sightRange, enemyLayer))
         {
@@ -51,6 +53,7 @@ public class Soldier : MonoBehaviour
                 if (angle <= sightAngle && !enemy.isSpotted())
                 {
                     enemy.SetDetection(true);
+                    enemiesSpotted.Add(enemy.transform);
                 }
             }
         }
