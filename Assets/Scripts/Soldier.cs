@@ -6,6 +6,8 @@ public class Soldier : MonoBehaviour
 {
     public Transform visor;
 
+    [SerializeField] private bool isLeader;
+
     public float sightRange;
     public float sightAngle; // blue
     public float surroundingAwarenessRange; // yellow
@@ -16,7 +18,6 @@ public class Soldier : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private LayerMask coverLayer;
 
-    private bool isLeader;
     private float health;
     private const float MIN_HEALTH = 69;
     private int ammo;
@@ -60,8 +61,13 @@ public class Soldier : MonoBehaviour
     }
 
     // this is just drawing a bunch of things, nothing special lmao
-    void OnDrawGizmos()
+    void OnDrawGizmosSelected()
     {
+        if (isLeader)
+        {
+            Gizmos.DrawIcon(transform.position + (Vector3.up * 2f), "leader.png", true);
+        }
+
         // field of view
         Gizmos.color = Color.blue;
         Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(sightAngle, transform.up) * visor.forward * sightRange);

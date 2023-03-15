@@ -44,7 +44,8 @@ GameObject:
   - component: {fileID: 6174310626901930606}
   - component: {fileID: 3346062264391078663}
   - component: {fileID: 1202103792321007806}
-  m_Layer: 0
+  - component: {fileID: 2127836823}
+  m_Layer: 6
   m_Name: B E A N
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,6 +133,37 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2127836823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2663400590815354323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11126a6c17f83bf4f9610f93700d594b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visor: {fileID: 774316168927953372}
+  isLeader: 0
+  sightRange: 43.2
+  sightAngle: 30
+  surroundingAwarenessRange: 9.2
+  keepDistance: 2.01
+  followDistance: 20
+  shootDistance: 43.2
+  allyLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  coverLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  coverObjects: []
+  enemiesSpotted: []
 --- !u!1 &4735716471614731426
 GameObject:
   m_ObjectHideFlags: 0
