@@ -10,7 +10,7 @@ public class Soldier : MonoBehaviour
 
     public float sightRange;
     public float sightAngle; // blue
-    public float surroundingAwarenessRange; // yellow
+    public float surroundingAwarenessRange; // yellow, keeps awareness of surrounding covers
     public float keepDistance; // black
     public float followDistance; // green
     public float shootDistance; // red
@@ -40,7 +40,7 @@ public class Soldier : MonoBehaviour
         DetectEnemies();
     }
 
-    void DetectEnemies()
+    private void DetectEnemies()
     {
         if (Physics.CheckSphere(transform.position, sightRange, enemyLayer))
         {
