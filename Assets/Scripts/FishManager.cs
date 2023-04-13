@@ -12,9 +12,10 @@ public class FishManager : MonoBehaviour
 
     void Start()
     {
-        mainCamera.enabled = false;
-        fishCamera.enabled = true;
-        funkyTownAudio = fish.transform.gameObject.transform.gameObject.GetComponent<AudioSource>(); // safest way to get component in Unity
+        mainCamera.enabled = true;
+        fishCamera.enabled = false;
+        funkyTownAudio = fish.transform.GetComponent<AudioSource>(); // safest way to get component in Unity
+        funkyTownAudio.Pause();
     }
 
     void OnGUI()
