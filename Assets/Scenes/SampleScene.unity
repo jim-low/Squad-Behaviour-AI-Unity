@@ -1777,6 +1777,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 330585545}
   fishCamera: {fileID: 1691068017}
+  fish: {fileID: 1573336635}
 --- !u!1 &1092952358
 GameObject:
   m_ObjectHideFlags: 0
@@ -2062,6 +2063,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8438252737629603865, guid: 76195a37eeaca5143b1fde9c3b46cdcd,
     type: 3}
   m_PrefabInstance: {fileID: 1440244265}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1573336635 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5703940826848702261, guid: 2eb8fe5647707b94d99ae08d0bd88188,
+    type: 3}
+  m_PrefabInstance: {fileID: 5874989010164575379}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1593108766 stripped
 Transform:
@@ -2384,8 +2391,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 13.835144, y: 0.93499756}
+  m_SizeDelta: {x: 31.529732, y: 1.8700356}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2103773043
 MonoBehaviour:
