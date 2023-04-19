@@ -66,6 +66,7 @@ public class Soldier : MonoBehaviour
     // Damage
     // Heal
     // GetCurrentAmmo
+    // GetCurrentHealth
     // Reload
     // Attack
     // WalkAround
@@ -87,6 +88,14 @@ public class Soldier : MonoBehaviour
         if (damage <= 0) return;
 
         health -= damage;
+        // probably can add other things here
+    }
+
+    public void Heal(float amount)
+    {
+        if (amount <= 0) return;
+
+        health += amount;
         // probably can add other things here
     }
 
