@@ -60,6 +60,18 @@ public class Soldier : MonoBehaviour
         }
     }
 
+    // TODO: add these functions
+    // HasBeenUnalived
+    // IsLowHealth
+    // Damage
+    // Heal
+    // GetCurrentAmmo
+    // Reload
+    // Attack
+    // WalkAround
+    // Chase
+    // TakeCover
+
     // this is just drawing a bunch of things, nothing special lmao
     void OnDrawGizmosSelected()
     {
