@@ -77,6 +77,11 @@ public class Soldier : MonoBehaviour
         return health <= 0;
     }
 
+    public bool IsLowHealth()
+    {
+        return health <= MIN_HEALTH;
+    }
+
     // this is just drawing a bunch of things, nothing special lmao
     void OnDrawGizmosSelected()
     {
