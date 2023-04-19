@@ -72,6 +72,11 @@ public class Soldier : MonoBehaviour
     // Chase
     // TakeCover
 
+    public bool HasBeenUnalived() 
+    {
+        return health <= 0;
+    }
+
     // this is just drawing a bunch of things, nothing special lmao
     void OnDrawGizmosSelected()
     {
