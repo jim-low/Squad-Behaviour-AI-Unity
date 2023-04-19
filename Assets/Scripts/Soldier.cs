@@ -82,6 +82,14 @@ public class Soldier : MonoBehaviour
         return health <= MIN_HEALTH;
     }
 
+    public void Damage(float damage)
+    {
+        if (damage <= 0) return;
+
+        health -= damage;
+        // probably can add other things here
+    }
+
     // this is just drawing a bunch of things, nothing special lmao
     void OnDrawGizmosSelected()
     {
