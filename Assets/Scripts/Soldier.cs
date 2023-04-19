@@ -61,12 +61,6 @@ public class Soldier : MonoBehaviour
     }
 
     // TODO: add these functions
-    // HasBeenUnalived
-    // IsLowHealth
-    // Damage
-    // Heal
-    // GetCurrentAmmo
-    // GetCurrentHealth
     // Reload
     // Attack
     // WalkAround
@@ -97,6 +91,16 @@ public class Soldier : MonoBehaviour
 
         health += amount;
         // probably can add other things here
+    }
+
+    public int GetCurrentAmmo()
+    {
+        return ammo;
+    }
+
+    public float GetCurrentHealth()
+    {
+        return health;
     }
 
     // this is just drawing a bunch of things, nothing special lmao
