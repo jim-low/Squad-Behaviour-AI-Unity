@@ -17,6 +17,7 @@ public class Soldier : MonoBehaviour
     private const int MAX_AMMO = 30;
     private const float RELOAD_TIME = 1.5f;
     private bool canShoot = true;
+    private const float SHOOT_RECOIL = 0.25f;
 
     [Tooltip("Damage, it does damage")]
     [SerializeField] private float damage = 10;
@@ -97,6 +98,24 @@ public class Soldier : MonoBehaviour
     // WalkAround
     // Chase
     // TakeCover
+
+    private void Shoot()
+    {
+        // detect if enemy is within line of sight
+        RaycastHit hit;
+        Physics.Raycast(transform.position, transform.forward, out hit, shootDistance, enemyLayer);
+        if (hit.collider.tag == "Enemy")
+        {
+            // attack enemy
+        }
+    }
+
+    private IEnumerator Recoil()
+    {
+        canShoot = false;
+        yield return new WaitForSeconds(SHOOT_RECOIL);
+        canShoot = true;
+    }
 
     private IEnumerator Reload()
     {
