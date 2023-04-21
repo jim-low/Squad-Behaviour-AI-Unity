@@ -6,6 +6,6 @@ public class SpinnyFish : MonoBehaviour
 {
     void Update()
     {
-        transform.Rotate(0, 5, 0);
+        transform.Rotate(0, 3, 0);
     }
 }
