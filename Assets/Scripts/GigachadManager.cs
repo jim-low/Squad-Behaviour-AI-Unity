@@ -11,6 +11,8 @@ public class GigachadManager : MonoBehaviour
     public Camera gigachadCamera;
     public Sprite[] gigachadImages;
 
+    private int prevIndex = 0;
+
     void Start()
     {
         mainCamera.enabled = true;
@@ -22,9 +24,14 @@ public class GigachadManager : MonoBehaviour
 
     private IEnumerator changeGigachad()
     {
+        int currIndex = Random.Range(0, gigachadImages.Length);
+        if (prevIndex == currIndex)
+        {
+            currIndex = Random.Range(0, gigachadImages.Length);
+        }
         yield return new WaitForSeconds(2f);
-        int randomIndex = Random.Range(0, gigachadImages.Length);
-        gigachadPortrait.sprite = gigachadImages[randomIndex];
+        prevIndex = currIndex;
+        gigachadPortrait.sprite = gigachadImages[currIndex];
         StartCoroutine(changeGigachad());
     }
 
