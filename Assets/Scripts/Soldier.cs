@@ -15,6 +15,8 @@ public class Soldier : MonoBehaviour
     [Tooltip("Ammo of the soldier")]
     [SerializeField] private int ammo = 30;
     private const int MAX_AMMO = 30;
+    private const float RELOAD_TIME = 1.5f;
+    private bool canShoot = true;
 
     [Tooltip("Damage, it does damage")]
     [SerializeField] private float damage = 10;
@@ -91,11 +93,18 @@ public class Soldier : MonoBehaviour
     }
 
     // TODO: add these functions
-    // Reload
     // Attack
     // WalkAround
     // Chase
     // TakeCover
+
+    private IEnumerator Reload()
+    {
+        canShoot = false;
+        yield return new WaitForSeconds(RELOAD_TIME);
+        ammo = MAX_AMMO;
+        canShoot = true;
+    }
 
     public bool HasBeenUnalived() 
     {
