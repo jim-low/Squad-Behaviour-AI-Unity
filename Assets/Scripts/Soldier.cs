@@ -6,24 +6,56 @@ public class Soldier : MonoBehaviour
 {
     public Transform visor;
 
+    [Header("Soldier Basics")]
+    [Tooltip("Health of the soldier")]
+    [SerializeField] private float health;
+    private const float MIN_HEALTH = 69;
+
+    [Tooltip("Ammo of the soldier")]
+    [SerializeField] private int ammo;
+    private const int MAX_AMMO = 30;
+
+    [Tooltip("Damage, it does damage")]
+    [SerializeField] private float damage;
+
+    [Header("Leader")]
+    [Tooltip("Determines if the current soldier is the leader of the team")]
     [SerializeField] private bool isLeader;
 
+    [Header("Sight and Awareness")]
+    [Tooltip("The range of sight for the soldier")]
     public float sightRange;
+
+    [Tooltip("The angle for the Field of View of the soldier")]
     public float sightAngle; // blue
+
+    [Tooltip("Keeps track of surrounding objects that can be used as covers")]
     public float surroundingAwarenessRange; // yellow, keeps awareness of surrounding covers
+
+    [Tooltip("The distance that the soldier will stay away from ally soldiers")]
     public float keepDistance; // black
+
+    [Tooltip("The distance that the soldier will not go beyond from the Leader")]
     public float followDistance; // green
+
+    [Tooltip("The distance for the soldier to be able to start shooting")]
     public float shootDistance; // red
+
+    [Header("Detection Layers")]
+    [Tooltip("Layer that determines if soldier is friendly")]
     [SerializeField] private LayerMask allyLayer;
+
+    [Tooltip("Layer that determines if soldier is an enemy")]
     [SerializeField] private LayerMask enemyLayer;
+
+    [Tooltip("Layer that determines if object can be used as cover")]
     [SerializeField] private LayerMask coverLayer;
 
-    private float health;
-    private const float MIN_HEALTH = 69;
-    private int ammo;
-    private const int MAX_AMMO = 30;
-    private float damage;
+    [Header("Tracking")]
+    [Tooltip("Keeps track of objects that can be used as covers")]
     [SerializeField] private List<Transform> coverObjects;
+
+    [Tooltip("Keeps track of spotted enemies")]
     [SerializeField] private List<Transform> enemiesSpotted;
 
     // Start is called before the first frame update
