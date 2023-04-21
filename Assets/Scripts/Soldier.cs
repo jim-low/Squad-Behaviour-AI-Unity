@@ -94,7 +94,6 @@ public class Soldier : MonoBehaviour
     }
 
     // TODO: add these functions
-    // Attack
     // WalkAround
     // Chase
     // TakeCover
