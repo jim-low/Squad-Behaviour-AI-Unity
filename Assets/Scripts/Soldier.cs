@@ -70,7 +70,7 @@ public class Soldier : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /* DetectEnemies(); */
+        Shoot();
     }
 
     private void DetectEnemies()
@@ -104,9 +104,10 @@ public class Soldier : MonoBehaviour
         // detect if enemy is within line of sight
         RaycastHit hit;
         Physics.Raycast(transform.position, transform.forward, out hit, shootDistance, enemyLayer);
-        if (hit.collider.tag == "Enemy")
+        if (hit.collider != null && hit.collider.tag == "Enemy" && canShoot)
         {
-            // attack enemy
+            hit.collider.GetComponent<Soldier>().Damage(damage);
+            StartCoroutine(Recoil());
         }
     }
 
