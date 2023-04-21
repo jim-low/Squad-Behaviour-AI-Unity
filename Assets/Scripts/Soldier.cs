@@ -8,19 +8,20 @@ public class Soldier : MonoBehaviour
 
     [Header("Soldier Basics")]
     [Tooltip("Health of the soldier")]
-    [SerializeField] private float health;
-    private const float MIN_HEALTH = 69;
+    [SerializeField] private float health = 100;
+    private const float MIN_HEALTH = 30;
+    private const float MAX_HEALTH = 100;
 
     [Tooltip("Ammo of the soldier")]
-    [SerializeField] private int ammo;
+    [SerializeField] private int ammo = 30;
     private const int MAX_AMMO = 30;
 
     [Tooltip("Damage, it does damage")]
-    [SerializeField] private float damage;
+    [SerializeField] private float damage = 10;
 
     [Header("Leader")]
     [Tooltip("Determines if the current soldier is the leader of the team")]
-    [SerializeField] private bool isLeader;
+    [SerializeField] private bool isLeader = false;
 
     [Header("Sight and Awareness")]
     [Tooltip("The range of sight for the soldier")]
@@ -61,9 +62,6 @@ public class Soldier : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        health = 100;
-        ammo = 30;
-        damage = 5;
     }
 
     // Update is called once per frame
