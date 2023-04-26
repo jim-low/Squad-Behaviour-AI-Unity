@@ -207,6 +207,8 @@ GameObject:
   - component: {fileID: 6627598554790713479}
   - component: {fileID: 7293816147908909886}
   - component: {fileID: 8473078649270828311}
+  - component: {fileID: 616126434749238082}
+  - component: {fileID: 8222982740330774793}
   m_Layer: 6
   m_Name: B E A N
   m_TagString: Untagged
@@ -329,3 +331,42 @@ MonoBehaviour:
     m_Bits: 8
   coverObjects: []
   enemiesSpotted: []
+--- !u!195 &616126434749238082
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5863722560691279443}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &8222982740330774793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5863722560691279443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84f6c441004aaca458fc938043d4c718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 0}
+  floorLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  agent: {fileID: 0}
