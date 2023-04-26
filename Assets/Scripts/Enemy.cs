@@ -6,18 +6,6 @@ public class Enemy : MonoBehaviour
 {
     private bool isDetected = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public bool isSpotted()
     {
         return isDetected;
