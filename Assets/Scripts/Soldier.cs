@@ -70,7 +70,7 @@ public class Soldier : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Shoot();
+        /* Shoot(); */
     }
 
     private void DetectEnemies()
@@ -97,6 +97,13 @@ public class Soldier : MonoBehaviour
     // WalkAround
     // Chase
     // TakeCover
+
+    private void TakeCover()
+    {
+        // need nav mesh
+        // need more ideas
+        // https://www.youtube.com/watch?v=t9e2XBQY4Og&pp=ygUTdW5pdHkgYWkgdGFrZSBjb3Zlcg%3D%3D
+    }
 
     private void Shoot()
     {
