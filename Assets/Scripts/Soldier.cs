@@ -70,6 +70,7 @@ public class Soldier : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Enemy runaway is not working");
         /* Shoot(); */
     }
 
