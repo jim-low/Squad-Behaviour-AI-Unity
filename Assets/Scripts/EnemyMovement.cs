@@ -77,7 +77,7 @@ public class EnemyMovement : MonoBehaviour
 
             for (int i = 0; i < hits; i++)
             {
-                if (NavMesh.SamplePosition(Colliders[i].transform.position, out NavMeshHit hit, 2f, Agent.areaMask))
+                if (NavMesh.SamplePosition(Colliders[i].transform.position, out NavMeshHit hit, 40f, Agent.areaMask))
                 {
                     if (!NavMesh.FindClosestEdge(hit.position, out hit, Agent.areaMask))
                     {
