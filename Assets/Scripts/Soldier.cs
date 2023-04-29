@@ -136,7 +136,6 @@ public class Soldier : MonoBehaviour
         if (damage <= 0) return;
 
         health -= damage;
-        // probably can add other things here
     }
 
     public void Heal(float amount)
@@ -144,7 +143,6 @@ public class Soldier : MonoBehaviour
         if (amount <= 0) return;
 
         health += amount;
-        // probably can add other things here
     }
 
     public int GetCurrentAmmo()
