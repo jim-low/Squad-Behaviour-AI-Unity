@@ -62,6 +62,12 @@ public class Soldier : MonoBehaviour
     [Tooltip("Keeps track of spotted enemies")]
     [SerializeField] private List<Transform> enemiesSpotted;
 
+    void Update()
+    {
+        Aim();
+        Shoot();
+    }
+
     private void DetectEnemies()
     {
         if (Physics.CheckSphere(transform.position, sightRange, enemyLayer))
@@ -83,9 +89,36 @@ public class Soldier : MonoBehaviour
     }
 
     // TODO: add these functions
-    // WalkAround
-    // Chase
-    // TakeCover
+    // Aim (aim closest enemy or enemy that is not being targeted?)
+    // 
+
+    private void Aim()
+    {
+        // get all colliders within sphere
+        Collider[] enemies = Physics.OverlapSphere(transform.position, shootDistance, enemyLayer);
+        Transform nearestEnemy = null;
+        float prevDistance = 0;
+        foreach (Collider enemy in enemies) {
+            // find closest one
+            if (prevDistance == 0) {
+                nearestEnemy = enemy.transform;
+                prevDistance = Vector3.Distance(enemy.transform.position, transform.position);
+            }
+            else {
+                float distance = Vector3.Distance(enemy.transform.position, transform.position);
+                if (distance < prevDistance) {
+                    nearestEnemy = enemy.transform;
+                }
+                prevDistance = distance;
+            }
+        }
+
+        // lerp towards it
+        if (nearestEnemy != null) {
+            Quaternion toRotation = Quaternion.LookRotation(nearestEnemy.position - transform.position);
+            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 5f * Time.deltaTime);
+        }
+    }
 
     private void Shoot()
     {
@@ -149,7 +182,7 @@ public class Soldier : MonoBehaviour
     }
 
     // this is just drawing a bunch of things, nothing special lmao
-    void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
         if (isLeader)
         {
@@ -169,8 +202,8 @@ public class Soldier : MonoBehaviour
         /* Gizmos.color = Color.yellow; */
         /* Gizmos.DrawWireSphere(transform.position, surroundingAwarenessRange); */
 
-        /* Gizmos.color = Color.red; */
-        /* Gizmos.DrawRay(visor.position, visor.transform.forward * shootDistance); */
+        Gizmos.color = canShoot ? Color.yellow : Color.red;
+        Gizmos.DrawRay(visor.position, visor.transform.forward * shootDistance);
 
         /* Gizmos.color = Color.green; */
         /* Gizmos.DrawWireSphere(transform.position, followDistance); */
