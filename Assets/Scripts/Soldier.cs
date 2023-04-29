@@ -87,13 +87,6 @@ public class Soldier : MonoBehaviour
     // Chase
     // TakeCover
 
-    private void TakeCover()
-    {
-        // need nav mesh
-        // need more ideas
-        // https://www.youtube.com/watch?v=t9e2XBQY4Og&pp=ygUTdW5pdHkgYWkgdGFrZSBjb3Zlcg%3D%3D
-    }
-
     private void Shoot()
     {
         // detect if enemy is within line of sight
