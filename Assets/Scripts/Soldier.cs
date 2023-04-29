@@ -124,7 +124,13 @@ public class Soldier : MonoBehaviour
     {
         // detect if enemy is within line of sight
         RaycastHit hit;
-        Physics.Raycast(transform.position, transform.forward, out hit, shootDistance, enemyLayer);
+        Physics.Raycast(transform.position, transform.forward, out hit, shootDistance);
+
+        if (hit.collider != null) {
+            Debug.Log(hit.collider);
+            Debug.Log(hit.collider.tag);
+        }
+
         if (hit.collider != null && hit.collider.tag == "Enemy" && canShoot)
         {
             hit.collider.GetComponent<Soldier>().Damage(damage);
