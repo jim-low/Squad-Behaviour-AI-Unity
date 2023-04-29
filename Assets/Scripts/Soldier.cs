@@ -62,17 +62,6 @@ public class Soldier : MonoBehaviour
     [Tooltip("Keeps track of spotted enemies")]
     [SerializeField] private List<Transform> enemiesSpotted;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        /* Shoot(); */
-    }
-
     private void DetectEnemies()
     {
         if (Physics.CheckSphere(transform.position, sightRange, enemyLayer))
