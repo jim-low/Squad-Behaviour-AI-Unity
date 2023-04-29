@@ -165,23 +165,23 @@ public class Soldier : MonoBehaviour
             Gizmos.DrawIcon(transform.position + (Vector3.up * 2f), "leader.png", true);
         }
 
-        // field of view
-        Gizmos.color = Color.blue;
-        Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(sightAngle, transform.up) * visor.forward * sightRange);
-        Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(-sightAngle, transform.up) * visor.forward * sightRange);
+        /* // field of view */
+        /* Gizmos.color = Color.blue; */
+        /* Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(sightAngle, transform.up) * visor.forward * sightRange); */
+        /* Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(-sightAngle, transform.up) * visor.forward * sightRange); */
 
-        // keep distance from other soldiers
-        Gizmos.color = Color.black;
-        Gizmos.DrawWireSphere(transform.position, keepDistance);
+        /* // keep distance from other soldiers */
+        /* Gizmos.color = Color.black; */
+        /* Gizmos.DrawWireSphere(transform.position, keepDistance); */
 
-        // surrounding awareness range
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, surroundingAwarenessRange);
+        /* // surrounding awareness range */
+        /* Gizmos.color = Color.yellow; */
+        /* Gizmos.DrawWireSphere(transform.position, surroundingAwarenessRange); */
 
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(visor.position, visor.transform.forward * shootDistance);
+        /* Gizmos.color = Color.red; */
+        /* Gizmos.DrawRay(visor.position, visor.transform.forward * shootDistance); */
 
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, followDistance);
+        /* Gizmos.color = Color.green; */
+        /* Gizmos.DrawWireSphere(transform.position, followDistance); */
     }
 }
