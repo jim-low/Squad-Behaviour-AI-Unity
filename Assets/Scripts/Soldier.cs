@@ -86,9 +86,9 @@ public class Soldier : MonoBehaviour
             Collider[] hitTargets = Physics.OverlapSphere(transform.position, sightRange, enemyLayer);
             foreach (var target in hitTargets)
             {
-                Enemy enemy = target.gameObject.GetComponent<Enemy>();
-                Vector3 enemyPos = enemy.transform.position - transform.position;
-                float angle = Mathf.Abs(Vector3.Angle(enemyPos, transform.forward));
+                Soldier enemy = target.gameObject.GetComponent<Enemy>();
+                Vector3 soldierPos = enemy.transform.position - transform.position;
+                float angle = Mathf.Abs(Vector3.Angle(soldierPos, transform.forward));
 
                 if (angle <= sightAngle && !enemy.isSpotted())
                 {
