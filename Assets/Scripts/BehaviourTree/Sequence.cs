@@ -6,7 +6,7 @@ using UnityEngine;
 //A Sequence node is a type of Composite Node, composite nodes are in charge of looking through the states of their child Nodes.
 //A Sequence node basically traveses it's child nodes from left to right.
 //If ONE of the Sequence node's children return false, it is deemed false.
-//If ONE of the Sequence node's children return true, it is deemed true.
+//If ALL of the Sequence node's children return true, it is deemed true.
 
 public class Sequence : Node
 {
@@ -19,7 +19,7 @@ public class Sequence : Node
         m_nodes = nodes;
     }
 
-    //check child nodes. IF ANY children return false, the selector is deemed false, the opposite applies.
+    //check child nodes. IF ANY children return false, the selector is deemed false.
     //override the Evaluate() function from the Node Class. 
     public override NodeStates Evaluate()
     {
