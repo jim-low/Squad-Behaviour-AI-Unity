@@ -5,6 +5,7 @@ using UnityEngine;
 public class Soldier : MonoBehaviour
 {
     public Transform visor;
+    public healthBar soldierHealthBar;
 
     [Header("Soldier Basics")]
     [Tooltip("Health of the soldier")]
@@ -62,10 +63,20 @@ public class Soldier : MonoBehaviour
     [Tooltip("Keeps track of spotted enemies")]
     [SerializeField] private List<Transform> enemiesSpotted;
 
+    void Start()
+    {
+        health = 30.0f;
+        soldierHealthBar.SetMaxHealth(MAX_HEALTH);
+        soldierHealthBar.SetHealth(health);
+    }
+    
     void Update()
     {
         Aim();
         Shoot();
+
+        //when you want to reinitialize their health
+        //soldierHealthBar.SetHealth(health);
     }
 
     private void DetectEnemies()
@@ -87,6 +98,7 @@ public class Soldier : MonoBehaviour
             }
         }
     }
+
 
     // TODO: add these functions
     // Aim (aim closest enemy or enemy that is not being targeted?)
@@ -187,6 +199,12 @@ public class Soldier : MonoBehaviour
         return health;
     }
 
+    public void SetCurrentHealth(int health)
+    {
+        this.health = health;
+    }
+
+
     // this is just drawing a bunch of things, nothing special lmao
     void OnDrawGizmos()
     {
@@ -196,9 +214,9 @@ public class Soldier : MonoBehaviour
         }
 
         /* // field of view */
-        /* Gizmos.color = Color.blue; */
-        /* Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(sightAngle, transform.up) * visor.forward * sightRange); */
-        /* Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(-sightAngle, transform.up) * visor.forward * sightRange); */
+         Gizmos.color = Color.blue; 
+         Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(sightAngle, transform.up) * visor.forward * sightRange); 
+         Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(-sightAngle, transform.up) * visor.forward * sightRange); 
 
         /* // keep distance from other soldiers */
         /* Gizmos.color = Color.black; */
