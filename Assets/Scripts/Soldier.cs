@@ -159,9 +159,14 @@ public class Soldier : MonoBehaviour
         canShoot = true;
     }
 
-    public bool HasBeenUnalived() 
+    public bool Unalived() 
     {
-        return health <= 0;
+        if (health <= 0) {
+            // do some dying here
+            return true;
+        }
+
+        return false;
     }
 
     public bool IsLowHealth()
@@ -182,22 +187,6 @@ public class Soldier : MonoBehaviour
 
         health += amount;
     }
-
-    public int GetCurrentAmmo()
-    {
-        return ammo;
-    }
-
-    public float GetCurrentHealth()
-    {
-        return health;
-    }
-
-    public void SetCurrentHealth(int health)
-    {
-        this.health = health;
-    }
-
 
     // this is just drawing a bunch of things, nothing special lmao
     void OnDrawGizmos()
