@@ -5,7 +5,9 @@ using UnityEngine;
 public class Soldier : MonoBehaviour
 {
     public Transform visor;
-    public healthBar soldierHealthBar;
+    public HealthBar soldierHealthBar;
+
+    private Soldier target;
 
     [Header("Soldier Basics")]
     [Tooltip("Health of the soldier")]
@@ -104,54 +106,72 @@ public class Soldier : MonoBehaviour
     // Aim (aim closest enemy or enemy that is not being targeted?)
     // 
 
-    private void Aim()
+    private bool DetectEnemy()
     {
-        // get all colliders within sphere
         Collider[] enemies = Physics.OverlapSphere(transform.position, shootDistance, enemyLayer);
+        if (enemies.Length == 0) {
+            return false;
+        }
+
+        float prevDist = 0;
         Transform nearestEnemy = null;
-        float prevDistance = 0;
-        foreach (Collider enemy in enemies) {
+        foreach(Collider enemy in enemies) {
             // find closest one
-            if (prevDistance == 0) {
+            if (nearestEnemy == null) {
                 nearestEnemy = enemy.transform;
-                prevDistance = Vector3.Distance(enemy.transform.position, transform.position);
+                prevDist = Vector3.Distance(enemy.transform.position, transform.position);
             }
             else {
                 float distance = Vector3.Distance(enemy.transform.position, transform.position);
-                if (distance < prevDistance) {
+                if (distance < prevDist) {
                     nearestEnemy = enemy.transform;
                 }
-                prevDistance = distance;
+                prevDist = distance;
             }
         }
 
-        // lerp towards it
-        if (nearestEnemy != null) {
-            Quaternion toRotation = Quaternion.LookRotation(nearestEnemy.position - transform.position);
-            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 5f * Time.deltaTime);
+        if (nearestEnemy == null) {
+            return false;
         }
+
+        if (target == null || target.transform.Equals(nearestEnemy)) {
+            target = nearestEnemy.GetComponent<Soldier>();
+        }
+        return true;
     }
 
-    private void Shoot()
+    private void Aim()
     {
-        // detect if enemy is within line of sight
+        if (target == null) {
+            return;
+        }
+
+        Quaternion toRotation = Quaternion.LookRotation(target.transform.position - transform.position);
+        transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 5f * Time.deltaTime);
+    }
+
+    public NodeStates Shoot()
+    {
+        DetectEnemy();
+        Aim();
+
+        if (ammo <= 0) {
+            StartCoroutine(Reload());
+            return NodeStates.FAILURE;
+        }
+
+        // detect if there is anything blocking the target
         RaycastHit hit;
         Physics.Raycast(transform.position, transform.forward, out hit, shootDistance);
-
-        if (hit.collider != null) {
-            Debug.Log(hit.collider);
-            Debug.Log(hit.collider.tag);
-        }
 
         if (hit.collider != null && hit.collider.tag == "Enemy" && canShoot && ammo > 0)
         {
             hit.collider.GetComponent<Soldier>().Damage(damage);
             StartCoroutine(Recoil());
+            return NodeStates.SUCCESS;
         }
 
-        if (ammo <= 0) {
-            StartCoroutine(Reload());
-        }
+        return NodeStates.FAILURE;
     }
 
     private IEnumerator Recoil()
