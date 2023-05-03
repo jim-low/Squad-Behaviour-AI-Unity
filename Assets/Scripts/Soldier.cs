@@ -79,25 +79,25 @@ public class Soldier : MonoBehaviour
         //soldierHealthBar.SetHealth(health);
     }
 
-    //////////private void DetectEnemies()
-    //////////{
-    //////////    if (Physics.CheckSphere(transform.position, sightRange, enemyLayer))
-    //////////    {
-    //////////        Collider[] hitTargets = Physics.OverlapSphere(transform.position, sightRange, enemyLayer);
-    //////////        foreach (var target in hitTargets)
-    //////////        {
-    //////////            Soldier enemy = target.gameObject.GetComponent<Soldier>();
-    //////////            Vector3 soldierPos = enemy.transform.position - transform.position;
-    //////////            float angle = Mathf.Abs(Vector3.Angle(soldierPos, transform.forward));
+    private void DetectEnemies()
+    {
+        if (Physics.CheckSphere(transform.position, sightRange, enemyLayer))
+        {
+            Collider[] hitTargets = Physics.OverlapSphere(transform.position, sightRange, enemyLayer);
+            foreach (var target in hitTargets)
+            {
+                Soldier enemy = target.gameObject.GetComponent<Soldier>();
+                Vector3 soldierPos = enemy.transform.position - transform.position;
+                float angle = Mathf.Abs(Vector3.Angle(soldierPos, transform.forward));
 
-    //////////            if (angle <= sightAngle && !enemy.isSpotted())
-    //////////            {
-    //////////                enemy.SetDetection(true);
-    //////////                enemiesSpotted.Add(enemy.transform);
-    //////////            }
-    //////////        }
-    //////////    }
-    //////////}
+                if (angle <= sightAngle)
+                {
+                    enemy.SetDetection(true);
+                    enemiesSpotted.Add(enemy.transform);
+                }
+            }
+        }
+    }
 
 
     // TODO: add these functions
