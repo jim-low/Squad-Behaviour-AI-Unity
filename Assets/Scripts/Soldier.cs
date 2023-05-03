@@ -143,10 +143,14 @@ public class Soldier : MonoBehaviour
             Debug.Log(hit.collider.tag);
         }
 
-        if (hit.collider != null && hit.collider.tag == "Enemy" && canShoot)
+        if (hit.collider != null && hit.collider.tag == "Enemy" && canShoot && ammo > 0)
         {
             hit.collider.GetComponent<Soldier>().Damage(damage);
             StartCoroutine(Recoil());
+        }
+
+        if (ammo <= 0) {
+            StartCoroutine(Reload());
         }
     }
 
