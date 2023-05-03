@@ -6,6 +6,7 @@ public class Soldier : MonoBehaviour
 {
     public Transform visor;
     public healthBar soldierHealthBar;
+    public GameObject GunPort; 
 
     [Header("Soldier Basics")]
     [Tooltip("Health of the soldier")]
@@ -72,6 +73,8 @@ public class Soldier : MonoBehaviour
     
     void Update()
     {
+        Vector3 forward = transform.TransformDirection(Vector3.forward) * 10;
+        Debug.DrawRay(transform.position, forward, Color.green);
         Aim();
         Shoot();
 
@@ -92,7 +95,7 @@ public class Soldier : MonoBehaviour
 
                 if (angle <= sightAngle)
                 {
-                    enemy.SetDetection(true);
+                    //enemy.SetDetection(true);
                     enemiesSpotted.Add(enemy.transform);
                 }
             }
@@ -138,11 +141,6 @@ public class Soldier : MonoBehaviour
         RaycastHit hit;
         Physics.Raycast(transform.position, transform.forward, out hit, shootDistance);
 
-        if (hit.collider != null) {
-            Debug.Log(hit.collider);
-            Debug.Log(hit.collider.tag);
-        }
-
         if (hit.collider != null && hit.collider.tag == "Enemy" && canShoot && ammo > 0)
         {
             hit.collider.GetComponent<Soldier>().Damage(damage);
@@ -156,6 +154,10 @@ public class Soldier : MonoBehaviour
 
     private IEnumerator Recoil()
     {
+        //show a raycast here
+        
+
+
         canShoot = false;
         yield return new WaitForSeconds(SHOOT_RECOIL);
         canShoot = true;
