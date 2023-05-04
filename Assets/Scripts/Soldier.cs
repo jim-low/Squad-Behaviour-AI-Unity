@@ -12,9 +12,6 @@ public class Soldier : MonoBehaviour
 
     //gun properties
     public GameObject gunPort;
-    public Transform bulletOrigin;
-    //public float gunRange = 50f;
-    //public float bulletShotDuration = 0.05f;
     LineRenderer bulletLine; 
 
     [Header("Soldier Basics")]
@@ -24,11 +21,12 @@ public class Soldier : MonoBehaviour
     private const float MAX_HEALTH = 100;
 
     [Tooltip("Ammo of the soldier")]
-    [SerializeField] private int ammo = 30;
-    private const int MAX_AMMO = 30;
+    [SerializeField] private int ammo = 10;
+    private const int MAX_AMMO = 10;
     private const float RELOAD_TIME = 1.5f;
     private bool canShoot = true;
     private const float SHOOT_RECOIL = 0.5f;
+    private const float BULLET_APPEARANCE = 0.25f;
 
     [Tooltip("Damage, it does damage")]
     [SerializeField] private float damage = 10;
@@ -76,13 +74,11 @@ public class Soldier : MonoBehaviour
 
     void Start()
     {
-        health = 30.0f;
+        health = 100.0f;
         soldierHealthBar.SetMaxHealth(MAX_HEALTH);
         soldierHealthBar.SetHealth(health);
 
         bulletLine = gunPort.GetComponent<LineRenderer>();
-
-        
     }
     
     void Update()
@@ -197,7 +193,6 @@ public class Soldier : MonoBehaviour
 
 
             StartCoroutine(Recoil());
-            return NodeStates.SUCCESS;
         }
 
         if (ammo <= 0) {
@@ -208,12 +203,11 @@ public class Soldier : MonoBehaviour
 
     private IEnumerator Recoil()
     {
-        //bulletLine.enabled = false;
-        Debug.Log("Recoil!");
+        yield return new WaitForSeconds(BULLET_APPEARANCE);
+        bulletLine.enabled = false;
         canShoot = false;
         yield return new WaitForSeconds(SHOOT_RECOIL);
         canShoot = true;
-        bulletLine.enabled = false;
 
 
 
