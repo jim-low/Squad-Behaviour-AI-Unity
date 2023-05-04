@@ -2,12 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(LineRenderer))]
 public class Soldier : MonoBehaviour
 {
     public Transform visor;
     public HealthBar soldierHealthBar;
 
     private Soldier target;
+
+    //gun properties
+    public GameObject gunPort;
+    public Transform bulletOrigin;
+    //public float gunRange = 50f;
+    //public float bulletShotDuration = 0.05f;
+    LineRenderer bulletLine; 
 
     [Header("Soldier Basics")]
     [Tooltip("Health of the soldier")]
@@ -20,7 +28,7 @@ public class Soldier : MonoBehaviour
     private const int MAX_AMMO = 30;
     private const float RELOAD_TIME = 1.5f;
     private bool canShoot = true;
-    private const float SHOOT_RECOIL = 0.25f;
+    private const float SHOOT_RECOIL = 0.5f;
 
     [Tooltip("Damage, it does damage")]
     [SerializeField] private float damage = 10;
@@ -65,18 +73,63 @@ public class Soldier : MonoBehaviour
     [Tooltip("Keeps track of spotted enemies")]
     [SerializeField] private List<Transform> enemiesSpotted;
 
+
     void Start()
     {
         health = 30.0f;
         soldierHealthBar.SetMaxHealth(MAX_HEALTH);
         soldierHealthBar.SetHealth(health);
+
+        bulletLine = gunPort.GetComponent<LineRenderer>();
+
+        
     }
     
     void Update()
     {
+
+        Aim();
+        Shoot();
+
+        //when you want to reinitialize their health
+        //soldierHealthBar.SetHealth(health);
     }
 
     private bool DetectEnemy()
+
+        Aim();
+        Shoot();
+
+        //when you want to reinitialize their health
+        //soldierHealthBar.SetHealth(health);
+    }
+
+    private void DetectEnemies()
+    {
+        if (Physics.CheckSphere(transform.position, sightRange, enemyLayer))
+        {
+            Collider[] hitTargets = Physics.OverlapSphere(transform.position, sightRange, enemyLayer);
+            foreach (var target in hitTargets)
+            {
+                Soldier enemy = target.gameObject.GetComponent<Soldier>();
+                Vector3 soldierPos = enemy.transform.position - transform.position;
+                float angle = Mathf.Abs(Vector3.Angle(soldierPos, transform.forward));
+
+                if (angle <= sightAngle)
+                {
+                    //enemy.SetDetection(true);
+                    enemiesSpotted.Add(enemy.transform);
+                }
+            }
+        }
+    }
+
+
+    // TODO: add these functions
+    // Aim (aim closest enemy or enemy that is not being targeted?)
+    // 
+
+    private void Aim()
     {
         Collider[] enemies = Physics.OverlapSphere(transform.position, shootDistance, enemyLayer);
         if (enemies.Length == 0) {
@@ -136,19 +189,39 @@ public class Soldier : MonoBehaviour
 
         if (hit.collider != null && hit.collider.tag == "Enemy" && canShoot && ammo > 0)
         {
+
             hit.collider.GetComponent<Soldier>().Damage(damage);
+            Debug.Log("Shoot a bullet!");
+
+            bulletLine.enabled = true;
+            bulletLine.SetPosition(0, new Vector3(gunPort.transform.position.x, gunPort.transform.position.y, gunPort.transform.position.z));
+            bulletLine.SetPosition(1, new Vector3(hit.collider.GetComponent<Soldier>().transform.position.x,
+                                                  hit.collider.GetComponent<Soldier>().transform.position.y,
+                                                  hit.collider.GetComponent<Soldier>().transform.position.z));
+
+
             StartCoroutine(Recoil());
             return NodeStates.SUCCESS;
         }
 
-        return NodeStates.FAILURE;
+        if (ammo <= 0) {
+            Debug.Log("Reloading...");
+            StartCoroutine(Reload());
+        }
     }
 
     private IEnumerator Recoil()
     {
+        //bulletLine.enabled = false;
+        Debug.Log("Recoil!");
         canShoot = false;
         yield return new WaitForSeconds(SHOOT_RECOIL);
         canShoot = true;
+        bulletLine.enabled = false;
+
+
+
+
     }
 
     private IEnumerator Reload()
@@ -209,8 +282,8 @@ public class Soldier : MonoBehaviour
         /* Gizmos.color = Color.yellow; */
         /* Gizmos.DrawWireSphere(transform.position, surroundingAwarenessRange); */
 
-        Gizmos.color = canShoot ? Color.yellow : Color.red;
-        Gizmos.DrawRay(visor.position, visor.transform.forward * shootDistance);
+        //Gizmos.color = canShoot ? Color.yellow : Color.red;
+        //Gizmos.DrawRay(visor.position, visor.transform.forward * shootDistance);
 
         /* Gizmos.color = Color.green; */
         /* Gizmos.DrawWireSphere(transform.position, followDistance); */
