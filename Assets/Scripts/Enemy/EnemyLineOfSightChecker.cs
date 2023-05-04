@@ -4,6 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class EnemyLineOfSightChecker : MonoBehaviour
 {
+    public Soldier soldier;
     public SphereCollider Collider;
     public float FieldOfView = 90f;
     public LayerMask LineOfSightLayers;
@@ -13,19 +14,19 @@ public class EnemyLineOfSightChecker : MonoBehaviour
     public delegate void LoseSightEvent(Transform Target);
     public LoseSightEvent OnLoseSight;
 
+    private Transform DetectedEnemy;
     private Coroutine CheckForLineOfSightCoroutine;
 
     private void Awake()
     {
+        soldier = gameObject.GetComponentInParent<Soldier>();
         Collider = GetComponent<SphereCollider>();
+        DetectedEnemy = null;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!CheckLineOfSight(other.transform))
-        {
-            CheckForLineOfSightCoroutine = StartCoroutine(CheckForLineOfSight(other.transform));
-        }
+        DetectedEnemy = other.transform;
     }
 
     private void OnTriggerExit(Collider other)
@@ -34,6 +35,22 @@ public class EnemyLineOfSightChecker : MonoBehaviour
         if (CheckForLineOfSightCoroutine != null)
         {
             StopCoroutine(CheckForLineOfSightCoroutine);
+        }
+
+        DetectedEnemy = null;
+    }
+
+    private void Hide()
+    {
+        if (DetectedEnemy == null) {
+            return;
+        }
+
+        if (soldier.IsLowHealth()) {
+            if (!CheckLineOfSight(DetectedEnemy))
+            {
+                CheckForLineOfSightCoroutine = StartCoroutine(CheckForLineOfSight(DetectedEnemy));
+            }
         }
     }
 
