@@ -96,7 +96,7 @@ public class Soldier : MonoBehaviour
     }
 
     private bool DetectEnemy()
-
+    {
         Aim();
         Shoot();
 
@@ -125,11 +125,7 @@ public class Soldier : MonoBehaviour
     }
 
 
-    // TODO: add these functions
-    // Aim (aim closest enemy or enemy that is not being targeted?)
-    // 
-
-    private void Aim()
+    private bool Aim()
     {
         Collider[] enemies = Physics.OverlapSphere(transform.position, shootDistance, enemyLayer);
         if (enemies.Length == 0) {
