@@ -172,7 +172,6 @@ public class Soldier : MonoBehaviour
 
     private IEnumerator Recoil()
     {
-        ammo -= 1;
         yield return new WaitForSeconds(BULLET_APPEARANCE);
         bulletLine.enabled = false;
         canShoot = false;
