@@ -83,11 +83,9 @@ public class Soldier : MonoBehaviour
         soldierHealthBar.SetMaxHealth(MAX_HEALTH);
         soldierHealthBar.SetHealth(health);
     }
-    
+
     void Update()
     {
-        DetectEnemy();
-        Aim();
         Shoot();
     }
 
@@ -131,6 +129,12 @@ public class Soldier : MonoBehaviour
 
     private bool Shoot()
     {
+        if (!DetectEnemy()) {
+            return false;
+        }
+
+        Aim();
+
         if (target == null) {
             return false;
         }
@@ -220,23 +224,8 @@ public class Soldier : MonoBehaviour
             Gizmos.DrawIcon(transform.position + (Vector3.up * 2f), "leader.png", true);
         }
 
-        /* // field of view */
-         Gizmos.color = Color.blue; 
-         Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(sightAngle, transform.up) * visor.forward * sightRange); 
-         Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(-sightAngle, transform.up) * visor.forward * sightRange); 
-
-        /* // keep distance from other soldiers */
-        /* Gizmos.color = Color.black; */
-        /* Gizmos.DrawWireSphere(transform.position, keepDistance); */
-
-        /* // surrounding awareness range */
-        /* Gizmos.color = Color.yellow; */
-        /* Gizmos.DrawWireSphere(transform.position, surroundingAwarenessRange); */
-
-        /* Gizmos.color = canShoot ? Color.yellow : Color.red; */
-        /* Gizmos.DrawRay(visor.position, visor.transform.forward * shootDistance); */
-
-        /* Gizmos.color = Color.green; */
-        /* Gizmos.DrawWireSphere(transform.position, followDistance); */
+        Gizmos.color = Color.blue; 
+        Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(sightAngle, transform.up) * visor.forward * sightRange); 
+        Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(-sightAngle, transform.up) * visor.forward * sightRange); 
     }
 }
