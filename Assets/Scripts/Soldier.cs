@@ -207,6 +207,7 @@ public class Soldier : MonoBehaviour
         if (damage <= 0) return;
 
         health -= damage;
+        soldierHealthBar.SetHealth(health);
     }
 
     public void Heal(float amount)
@@ -214,6 +215,7 @@ public class Soldier : MonoBehaviour
         if (amount <= 0) return;
 
         health += amount;
+        soldierHealthBar.SetHealth(health);
     }
 
     // this is just drawing a bunch of things, nothing special lmao
