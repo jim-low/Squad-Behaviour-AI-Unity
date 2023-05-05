@@ -11,8 +11,8 @@ public class Soldier : MonoBehaviour
     private Soldier target;
 
     //gun properties
-    public GameObject gunPort;
-    LineRenderer bulletLine; 
+    /* public GameObject gunPort; */
+    /* LineRenderer bulletLine; */ 
 
     [Header("Soldier Basics")]
     [Tooltip("Health of the soldier")]
@@ -78,7 +78,7 @@ public class Soldier : MonoBehaviour
         soldierHealthBar.SetMaxHealth(MAX_HEALTH);
         soldierHealthBar.SetHealth(health);
 
-        bulletLine = gunPort.GetComponent<LineRenderer>();
+        /* bulletLine = gunPort.GetComponent<LineRenderer>(); */
     }
     
     void Update()
@@ -91,14 +91,14 @@ public class Soldier : MonoBehaviour
         //soldierHealthBar.SetHealth(health);
     }
 
-    private bool DetectEnemy()
-    {
-        Aim();
-        Shoot();
+    /* private bool DetectEnemy() */
+    /* { */
+    /*     Aim(); */
+    /*     Shoot(); */
 
-        //when you want to reinitialize their health
-        //soldierHealthBar.SetHealth(health);
-    }
+    /*     //when you want to reinitialize their health */
+    /*     //soldierHealthBar.SetHealth(health); */
+    /* } */
 
     private void DetectEnemies()
     {
@@ -121,39 +121,39 @@ public class Soldier : MonoBehaviour
     }
 
 
-    private bool Aim()
-    {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, shootDistance, enemyLayer);
-        if (enemies.Length == 0) {
-            return false;
-        }
+    /* private bool Aim() */
+    /* { */
+    /*     Collider[] enemies = Physics.OverlapSphere(transform.position, shootDistance, enemyLayer); */
+    /*     if (enemies.Length == 0) { */
+    /*         return false; */
+    /*     } */
 
-        float prevDist = 0;
-        Transform nearestEnemy = null;
-        foreach(Collider enemy in enemies) {
-            // find closest one
-            if (nearestEnemy == null) {
-                nearestEnemy = enemy.transform;
-                prevDist = Vector3.Distance(enemy.transform.position, transform.position);
-            }
-            else {
-                float distance = Vector3.Distance(enemy.transform.position, transform.position);
-                if (distance < prevDist) {
-                    nearestEnemy = enemy.transform;
-                }
-                prevDist = distance;
-            }
-        }
+    /*     float prevDist = 0; */
+    /*     Transform nearestEnemy = null; */
+    /*     foreach(Collider enemy in enemies) { */
+    /*         // find closest one */
+    /*         if (nearestEnemy == null) { */
+    /*             nearestEnemy = enemy.transform; */
+    /*             prevDist = Vector3.Distance(enemy.transform.position, transform.position); */
+    /*         } */
+    /*         else { */
+    /*             float distance = Vector3.Distance(enemy.transform.position, transform.position); */
+    /*             if (distance < prevDist) { */
+    /*                 nearestEnemy = enemy.transform; */
+    /*             } */
+    /*             prevDist = distance; */
+    /*         } */
+    /*     } */
 
-        if (nearestEnemy == null) {
-            return false;
-        }
+    /*     if (nearestEnemy == null) { */
+    /*         return false; */
+    /*     } */
 
-        if (target == null || target.transform.Equals(nearestEnemy)) {
-            target = nearestEnemy.GetComponent<Soldier>();
-        }
-        return true;
-    }
+    /*     if (target == null || target.transform.Equals(nearestEnemy)) { */
+    /*         target = nearestEnemy.GetComponent<Soldier>(); */
+    /*     } */
+    /*     return true; */
+    /* } */
 
     private void Aim()
     {
@@ -165,14 +165,14 @@ public class Soldier : MonoBehaviour
         transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 5f * Time.deltaTime);
     }
 
-    public NodeStates Shoot()
+    public void Shoot()
     {
         DetectEnemy();
         Aim();
 
         if (ammo <= 0) {
             StartCoroutine(Reload());
-            return NodeStates.FAILURE;
+            return;
         }
 
         // detect if there is anything blocking the target
@@ -184,13 +184,6 @@ public class Soldier : MonoBehaviour
 
             hit.collider.GetComponent<Soldier>().Damage(damage);
             Debug.Log("Shoot a bullet!");
-
-            bulletLine.enabled = true;
-            bulletLine.SetPosition(0, new Vector3(gunPort.transform.position.x, gunPort.transform.position.y, gunPort.transform.position.z));
-            bulletLine.SetPosition(1, new Vector3(hit.collider.GetComponent<Soldier>().transform.position.x,
-                                                  hit.collider.GetComponent<Soldier>().transform.position.y,
-                                                  hit.collider.GetComponent<Soldier>().transform.position.z));
-
 
             StartCoroutine(Recoil());
         }
@@ -204,14 +197,10 @@ public class Soldier : MonoBehaviour
     private IEnumerator Recoil()
     {
         yield return new WaitForSeconds(BULLET_APPEARANCE);
-        bulletLine.enabled = false;
+        /* bulletLine.enabled = false; */
         canShoot = false;
         yield return new WaitForSeconds(SHOOT_RECOIL);
         canShoot = true;
-
-
-
-
     }
 
     private IEnumerator Reload()
