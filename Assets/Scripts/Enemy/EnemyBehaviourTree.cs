@@ -4,16 +4,51 @@ using UnityEngine;
 
 public class EnemyBehaviourTree : MonoBehaviour
 {
-    public Soldier sendiri;
-    public Soldier target;
+    private Soldier soldierData;
+    private Soldier ownData;
 
-    public Selector root;
-    public ActionNode roamingNode;
+    //define nodes
+    public Selector rootNode;
+    public ActionNode startRoaming;
+
+    //chase sequence Branch --------------------------
     public Sequence chaseSequence;
+    public ActionNode checkEnemyWithinSightAngle;
+    public ActionNode chaseEnemy;
+    public Inverter chaseInverter;
+    public ActionNode checkChaseDuration;
+    public ActionNode stopChasing;
+    //------------------------------------------------
+
+    //Attack sequence Branch --------------------------
     public Sequence attackSequence;
+    public ActionNode checkEnemyWithinShootAngle;
+    public ActionNode shootEnemy;
+    //------------------------------------------------
+
+    //Hide sequence Branch --------------------------
     public Sequence hideSequence;
+    public ActionNode lowerThan20Percent;
+    public ActionNode hideBehindWall;
+    public ActionNode startHealing;
+    //------------------------------------------------
+
+    //reload sequence Branch --------------------------
     public Sequence reloadSequence;
-    public Sequence dieSequence;
+    public ActionNode checkAmmo;
+    public ActionNode reload;
+    //-------------------------------------------------
+
+    //die sequence Branch --------------------------
+    public Sequence deathSequence;
+    public ActionNode playDeathAnimation;
+    //-------------------------------------------------
+
+    //define tree functions
+    public delegate void TreeExecuted();
+    public event TreeExecuted onTreeExecuted;
+
+    public delegate void NodePassed(string trigger);
 
     void Start()
     {
