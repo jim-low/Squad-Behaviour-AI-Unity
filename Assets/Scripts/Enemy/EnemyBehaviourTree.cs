@@ -52,15 +52,15 @@ public class EnemyBehaviourTree : MonoBehaviour
 
     void Start()
     {
-        roamingNode = new ActionNode(null /* put in a method to check on whether to roam or not??? */);
+        /* roamingNode = new ActionNode(null /1* put in a method to check on whether to roam or not??? *1/); */
 
-        root = new Selector(new List<Node> {
-            roamingNode,
+        rootNode = new Selector(new List<Node> {
+            /* roamingNode, */
                 chaseSequence,
                 attackSequence,
                 hideSequence,
                 reloadSequence,
-                dieSequence,
+                deathSequence,
         });
     }
 }

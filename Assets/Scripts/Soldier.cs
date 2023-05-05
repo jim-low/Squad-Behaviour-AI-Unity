@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(LineRenderer))]
 public class Soldier : MonoBehaviour
 {
     public Transform visor;
@@ -10,9 +9,11 @@ public class Soldier : MonoBehaviour
 
     private Soldier target;
 
-    //gun properties
-    /* public GameObject gunPort; */
-    /* LineRenderer bulletLine; */ 
+    // gun things
+    [Header("Gun Things")]
+    public GameObject bulletLinePrefab;
+    public Transform firePoint;
+    private GameObject bulletLine;
 
     [Header("Soldier Basics")]
     [Tooltip("Health of the soldier")]
@@ -74,86 +75,48 @@ public class Soldier : MonoBehaviour
 
     void Start()
     {
+        firePoint = gameObject.transform.Find("Gun").gameObject.transform.Find("FirePoint");
+        bulletLine = Instantiate(bulletLinePrefab);
+        bulletLine.SetActive(false);
+
         health = 100.0f;
         soldierHealthBar.SetMaxHealth(MAX_HEALTH);
         soldierHealthBar.SetHealth(health);
-
-        /* bulletLine = gunPort.GetComponent<LineRenderer>(); */
     }
     
     void Update()
     {
-
+        DetectEnemy();
         Aim();
         Shoot();
-
-        //when you want to reinitialize their health
-        //soldierHealthBar.SetHealth(health);
     }
 
-    /* private bool DetectEnemy() */
-    /* { */
-    /*     Aim(); */
-    /*     Shoot(); */
-
-    /*     //when you want to reinitialize their health */
-    /*     //soldierHealthBar.SetHealth(health); */
-    /* } */
-
-    private void DetectEnemies()
+    private bool DetectEnemy()
     {
-        if (Physics.CheckSphere(transform.position, sightRange, enemyLayer))
-        {
-            Collider[] hitTargets = Physics.OverlapSphere(transform.position, sightRange, enemyLayer);
-            foreach (var target in hitTargets)
-            {
-                Soldier enemy = target.gameObject.GetComponent<Soldier>();
-                Vector3 soldierPos = enemy.transform.position - transform.position;
-                float angle = Mathf.Abs(Vector3.Angle(soldierPos, transform.forward));
+        Collider[] enemies = Physics.OverlapSphere(transform.position, sightRange, enemyLayer);
 
-                if (angle <= sightAngle)
-                {
-                    //enemy.SetDetection(true);
-                    enemiesSpotted.Add(enemy.transform);
+        float prevDistance = 0;
+        Transform closestEnemy = null;
+        foreach (Collider enemy in enemies) {
+            if (closestEnemy == null) {
+                closestEnemy = enemy.transform;
+                prevDistance = Vector3.Distance(transform.position, enemy.transform.position);
+            }
+            else {
+                float distance = Vector3.Distance(transform.position, enemy.transform.position);
+                if (distance < prevDistance) {
+                    closestEnemy = enemy.transform;
+                    prevDistance = distance;
                 }
             }
         }
+
+        if (closestEnemy != null) {
+            target = closestEnemy.GetComponent<Soldier>();
+            return true;
+        }
+        return false;
     }
-
-
-    /* private bool Aim() */
-    /* { */
-    /*     Collider[] enemies = Physics.OverlapSphere(transform.position, shootDistance, enemyLayer); */
-    /*     if (enemies.Length == 0) { */
-    /*         return false; */
-    /*     } */
-
-    /*     float prevDist = 0; */
-    /*     Transform nearestEnemy = null; */
-    /*     foreach(Collider enemy in enemies) { */
-    /*         // find closest one */
-    /*         if (nearestEnemy == null) { */
-    /*             nearestEnemy = enemy.transform; */
-    /*             prevDist = Vector3.Distance(enemy.transform.position, transform.position); */
-    /*         } */
-    /*         else { */
-    /*             float distance = Vector3.Distance(enemy.transform.position, transform.position); */
-    /*             if (distance < prevDist) { */
-    /*                 nearestEnemy = enemy.transform; */
-    /*             } */
-    /*             prevDist = distance; */
-    /*         } */
-    /*     } */
-
-    /*     if (nearestEnemy == null) { */
-    /*         return false; */
-    /*     } */
-
-    /*     if (target == null || target.transform.Equals(nearestEnemy)) { */
-    /*         target = nearestEnemy.GetComponent<Soldier>(); */
-    /*     } */
-    /*     return true; */
-    /* } */
 
     private void Aim()
     {
@@ -161,46 +124,55 @@ public class Soldier : MonoBehaviour
             return;
         }
 
-        Quaternion toRotation = Quaternion.LookRotation(target.transform.position - transform.position);
-        transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 5f * Time.deltaTime);
+        Vector3 lookDirection = target.transform.position - transform.position;
+        Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
+        transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, 2f * Time.deltaTime);
     }
 
-    public void Shoot()
+    private bool Shoot()
     {
-        DetectEnemy();
-        Aim();
-
-        if (ammo <= 0) {
-            StartCoroutine(Reload());
-            return;
+        if (target == null) {
+            return false;
         }
 
-        // detect if there is anything blocking the target
+        if (ammo <= 0) {
+            if (canShoot) {
+                StartCoroutine(Reload());
+            }
+            return false;
+        }
+
         RaycastHit hit;
-        Physics.Raycast(transform.position, transform.forward, out hit, shootDistance);
+        bool hitEnemy = Physics.Raycast(transform.position, transform.forward, out hit, shootDistance);
+        if (!hitEnemy || hit.collider.tag == "Cover") {
+            return false;
+        }
 
-        if (hit.collider != null && hit.collider.tag == "Enemy" && canShoot && ammo > 0)
-        {
+        Physics.Raycast(transform.position, transform.forward, out hit, shootDistance, enemyLayer);
+        if (hit.collider != null && canShoot) {
+            hit.collider.gameObject.GetComponent<Soldier>().Damage(damage);
 
-            hit.collider.GetComponent<Soldier>().Damage(damage);
-            Debug.Log("Shoot a bullet!");
+            Vector3 oriScale = bulletLine.transform.localScale;
+            float distance = Vector3.Distance(hit.collider.transform.position, firePoint.position);
+            Quaternion bulletRotation = Quaternion.LookRotation(hit.collider.transform.position - firePoint.position);
 
+            bulletLine.transform.position = firePoint.transform.position;
+            bulletLine.transform.rotation = bulletRotation;
+            bulletLine.transform.localScale = new Vector3(oriScale.x, oriScale.y, distance);
+
+            ammo -= 1;
             StartCoroutine(Recoil());
         }
-
-        if (ammo <= 0) {
-            Debug.Log("Reloading...");
-            StartCoroutine(Reload());
-        }
+        return true;
     }
 
     private IEnumerator Recoil()
     {
-        yield return new WaitForSeconds(BULLET_APPEARANCE);
-        /* bulletLine.enabled = false; */
         canShoot = false;
+        bulletLine.SetActive(true);
         yield return new WaitForSeconds(SHOOT_RECOIL);
         canShoot = true;
+        bulletLine.SetActive(false);
     }
 
     private IEnumerator Reload()
@@ -261,8 +233,8 @@ public class Soldier : MonoBehaviour
         /* Gizmos.color = Color.yellow; */
         /* Gizmos.DrawWireSphere(transform.position, surroundingAwarenessRange); */
 
-        //Gizmos.color = canShoot ? Color.yellow : Color.red;
-        //Gizmos.DrawRay(visor.position, visor.transform.forward * shootDistance);
+        /* Gizmos.color = canShoot ? Color.yellow : Color.red; */
+        /* Gizmos.DrawRay(visor.position, visor.transform.forward * shootDistance); */
 
         /* Gizmos.color = Color.green; */
         /* Gizmos.DrawWireSphere(transform.position, followDistance); */
