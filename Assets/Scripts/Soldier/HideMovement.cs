@@ -8,7 +8,7 @@ public class EnemyMovement : MonoBehaviour
     [HideInInspector]
     public Transform Player;
     public LayerMask HidableLayers;
-    public EnemyLineOfSightChecker LineOfSightChecker;
+    public LineOfSightChecker lineOfSightChecker;
     public NavMeshAgent Agent;
     [Range(-1, 1)]
     [Tooltip("Lower is a better hiding spot")]
@@ -27,8 +27,8 @@ public class EnemyMovement : MonoBehaviour
     {
         Agent = GetComponent<NavMeshAgent>();
 
-        LineOfSightChecker.OnGainSight += HandleGainSight;
-        LineOfSightChecker.OnLoseSight += HandleLoseSight;
+        lineOfSightChecker.OnGainSight += HandleGainSight;
+        lineOfSightChecker.OnLoseSight += HandleLoseSight;
     }
 
     private void HandleGainSight(Transform Target)
@@ -60,7 +60,7 @@ public class EnemyMovement : MonoBehaviour
                 Colliders[i] = null;
             }
 
-            int hits = Physics.OverlapSphereNonAlloc(Agent.transform.position, LineOfSightChecker.Collider.radius, Colliders, HidableLayers);
+            int hits = Physics.OverlapSphereNonAlloc(Agent.transform.position, lineOfSightChecker.Collider.radius, Colliders, HidableLayers);
 
             int hitReduction = 0;
             for (int i = 0; i < hits; i++)

@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(SphereCollider))]
-public class EnemyLineOfSightChecker : MonoBehaviour
+public class LineOfSightChecker : MonoBehaviour
 {
     public Soldier soldier;
     public SphereCollider Collider;

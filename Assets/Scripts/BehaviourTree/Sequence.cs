@@ -12,44 +12,30 @@ namespace BehaviorTree
 {
     public class Sequence : Node
     {
-                //firstly, make a list that helps to store the states of the child nodes.
-        protected List<Node> m_nodes = new List<Node>();
+        public Sequence(): base() {}
+        public Sequence(List<Node> children): base(children) {}
 
-        //the constructor, it should contain the list of node states from the children.
-        public Sequence(List<Node> nodes)
+        public override NodeState Evaluate()
         {
-            m_nodes = nodes;
-        }
+            bool anyChildIsRunning = false;
 
-        //check child nodes. IF ANY children return false, the selector is deemed false.
-        //override the Evaluate() function from the Node Class. 
-        public override NodeStates Evaluate()
-        {
-            bool anyChildRunning = false;
-
-            foreach (Node node in m_nodes)
-            {
-                switch (node.Evaluate())
-                {
-                    case NodeStates.FAILURE:
-                        m_nodeState = NodeStates.FAILURE;
-                        return m_nodeState; // it fails, so return fail immediately
-
-                    case NodeStates.SUCCESS:
-                        continue; //dont return yet, if it is a success, it should still continue checking other child nodes.
-
-                    case NodeStates.RUNNING:
-                        anyChildRunning = true;
+            foreach (Node node in children) {
+                switch (node.Evaluate()) {
+                    case NodeState.FAILURE:
+                        state = NodeState.FAILURE;
+                        return state;
+                    case NodeState.SUCCESS:
                         continue;
-
+                    case NodeState.RUNNING:
+                        anyChildIsRunning = true;
+                        continue;
                     default:
-                        m_nodeState = NodeStates.SUCCESS;
-                        return m_nodeState;
+                        state = NodeState.SUCCESS;
+                        return state;
                 }
             }
-
-            m_nodeState = anyChildRunning ? NodeStates.RUNNING : NodeStates.SUCCESS;
-            return m_nodeState;
+            state = anyChildIsRunning ? NodeState.RUNNING : NodeState.SUCCESS;
+            return state;
         }
     }
 }

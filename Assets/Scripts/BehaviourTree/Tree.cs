@@ -15,7 +15,7 @@ namespace BehaviorTree
 
         private void Update()
         {
-            if (_root != nul) {
+            if (_root != null) {
                 _root.Evaluate();
             }
         }
