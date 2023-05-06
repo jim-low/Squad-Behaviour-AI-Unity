@@ -43,7 +43,5 @@ public class Selector : Node //A selector is a type of node, since a composite n
         }
         m_nodeState = NodeStates.FAILURE;
         return m_nodeState;
-
     }
-
 }

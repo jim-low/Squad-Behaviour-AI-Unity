@@ -317,6 +317,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visor: {fileID: 9162714556754365020}
   soldierHealthBar: {fileID: 0}
+  bulletLinePrefab: {fileID: 636369264598261311, guid: 6bc4497008aa7464e8697af4cb3e7114,
+    type: 3}
+  firePoint: {fileID: 0}
   health: 100
   ammo: 30
   damage: 10

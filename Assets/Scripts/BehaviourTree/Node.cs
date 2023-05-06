@@ -2,37 +2,77 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-//This helps to define the contents of the Node. 
-//This is meant to be only an interface, it is not meant to be instantiated.
-
-[System.Serializable]
-//create Node Class
-public abstract class Node
+namespace BehaviorTree
 {
-
-    //Each node should be able to be obtained to check its' contents, delegates are used.
-    //Delegate is done so that you are able to find the right content without needing large quantities of data.
-    public delegate NodeStates NodeReturn();
-
-    //Each node should have a node state. This should show its state at any given point.
-    //This will return if it is in the following states: FAILURE, SUCCESS, RUNNING.
-    protected NodeStates m_nodeState;
-
-    public NodeStates nodeState
+    public enum NodeState
     {
-        get { return m_nodeState; }
+        RUNNING,
+        SUCCESS,
+        FAILURE
     }
 
-    //Constructorzz
-    public Node()
+    public class Node
     {
+        protected NodeState state;
+
+        public Node parent;
+        protected List<Node> children = new List<Node>();
+
+        private Dictionary<string, object> _dataContext = new Dictionary<string, object>();
+
+        public Node()
+        {
+            parent = null;
+        }
+
+        public Node(List<Node> children)
+        {
+            foreach (Node child in children) {
+                _Attach(child);
+            }
+        }
+
+        private void _Attach(Node node)
+        {
+            node.parent = this;
+            children.Add(node);
+        }
+
+        public void SetData(string key, object value)
+        {
+            _dataContext[key] = value;
+        }
+
+        public object GetData(string key)
+        {
+            object val = null;
+            if (_data.TryGetValue(key, out val)) {
+                return val;
+            }
+
+            Node node = _parent;
+            if (node != null) {
+                val = node.GetData(key);
+            }
+            return val;
+        }
+
+        public bool ClearData(string key)
+        {
+            bool cleared = false;
+            if (_data.ContainsKey(key)) {
+                _data.Remove(key);
+                return true;
+            }
+
+            Node node = parent;
+            if (node != null) {
+                cleared = node.ClearData(key);
+            }
+            return cleared;
+        }
+
+        public virtual NodeState Evaluate() => NodeState.FAILURE;
 
     }
-
-    //Each node should have a function that allows you to evaluate node conditions.
-    //this helps to determine the state of the node.
-    public abstract NodeStates Evaluate();
-
-
 }
-

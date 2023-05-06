@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Soldier))]
 public class EnemyBehaviourTree : MonoBehaviour
 {
-    private Soldier soldierData;
-    private Soldier ownData;
+    private Soldier sendiri;
 
     //define nodes
     public Selector rootNode;
@@ -52,10 +52,46 @@ public class EnemyBehaviourTree : MonoBehaviour
 
     void Start()
     {
-        /* roamingNode = new ActionNode(null /1* put in a method to check on whether to roam or not??? *1/); */
+        sendiri = GetComponent<Soldier>();
+
+        // chase
+        checkEnemyWithinSightAngle = new ActionNode();
+        chaseEnemy = new ActionNode(null);
+        // chase - inverter
+        checkChaseDuration = new ActionNode(null);
+        stopChasing = new ActionNode(null);
+
+        chaseSequence = new Sequence(new List<Node> {
+            checkEnemyWithinSightAngle,
+                chaseEnemy,
+                chaseInverter,
+        });
+
+        // attack
+        checkEnemyWithinShootAngle = new ActionNode(sendiri.DetectEnemy);
+        shootEnemy = new ActionNode(sendiri.Shoot);
+
+        attackSequence = new Sequence(new List<Node> {
+            checkEnemyWithinShootAngle,
+                shootEnemy
+        });
+
+        // hide
+        lowerThan20Percent = new ActionNode(sendiri.IsLowHealth);
+        /* hideBehindWall = new ActionNode(); */ // maybe just start healing? cuz idk how to detect if its hiding behind wall
+        startHealing = new ActionNode();
+
+        hideSequence = new Sequence(new List<Node> {
+            lowerThan20Percent,
+            hideBehindWall,
+            startHealing,
+        });
+
+        // reload
+
+        // death
 
         rootNode = new Selector(new List<Node> {
-            /* roamingNode, */
                 chaseSequence,
                 attackSequence,
                 hideSequence,
