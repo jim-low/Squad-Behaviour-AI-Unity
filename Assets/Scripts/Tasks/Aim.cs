@@ -31,19 +31,16 @@ public class Aim : Node
         RaycastHit hit;
         bool hitEnemy = Physics.Raycast(transform.position, transform.forward, out hit, shootDistance);
         if (!hitEnemy || hit.collider.tag == "Cover") {
-            Debug.Log("second aim failure");
             state = NodeState.FAILURE;
             return state;
         }
 
         Physics.Raycast(transform.position, transform.forward, out hit, shootDistance, LayerMask.GetMask(enemyLayer));
         if (hit.collider != null) {
-            Debug.Log("aim success");
             state = NodeState.SUCCESS;
             return state;
         }
 
-        Debug.Log("aim keeps running");
         state = NodeState.RUNNING;
         return state;
     }
