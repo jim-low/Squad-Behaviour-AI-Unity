@@ -19,8 +19,9 @@ public class ChaseMovement : Node
         navMeshAgent = soldier.GetComponent<NavMeshAgent>();
         navMeshAgent.stoppingDistance = self.shootDistance * 0.6f;
         navMeshAgent.autoBraking = true;
-        navMeshAgent.speed = 7f;
-        navMeshAgent.acceleration = navMeshAgent.speed * 0.25f;
+        navMeshAgent.speed = 12f;
+        navMeshAgent.acceleration = navMeshAgent.speed * 0.5f;
+        this.enemyLayer = enemyLayer;
     }
 
     public override NodeState Evaluate()
@@ -31,7 +32,7 @@ public class ChaseMovement : Node
         }
 
         Transform target = (Transform)GetData(String.Format(String.Format("{0} target {1}", self.name, enemyLayer)));
-        if (target == null || navMeshAgent == null)
+        if (target == null)
         {
             state = NodeState.FAILURE;
             return state;
@@ -45,7 +46,6 @@ public class ChaseMovement : Node
         }
 
         navMeshAgent.isStopped = false;
-        Debug.Log(self.name + " is trying to set destination");
         navMeshAgent.SetDestination(target.transform.position);
 
         state = NodeState.SUCCESS;

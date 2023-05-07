@@ -37,8 +37,8 @@ public class SoldierBehaviorTree : Tree
         Node root = new Selector(new List<Node> {
             dieSequence,
                 retreatSequence,
-                chaseSequence,
                 attackSequence,
+                chaseSequence,
         });
         return root;
     }

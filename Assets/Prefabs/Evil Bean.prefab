@@ -445,7 +445,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 40
+  m_Radius: 50
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1377446642
 MonoBehaviour:
@@ -481,6 +481,7 @@ GameObject:
   - component: {fileID: 8336135995768983929}
   - component: {fileID: 8336135995768983926}
   - component: {fileID: 8336135995768983927}
+  - component: {fileID: 614352537701406387}
   m_Layer: 7
   m_Name: Evil Bean
   m_TagString: Enemy
@@ -641,13 +642,9 @@ MonoBehaviour:
   ammo: 10
   canShoot: 1
   damage: 10
-  isLeader: 0
-  sightRange: 5
+  sightRange: 60
   sightAngle: 60
-  surroundingAwarenessRange: 10
-  keepDistance: 10
-  followDistance: 10
-  shootDistance: 5
+  shootDistance: 30
   allyLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -657,8 +654,6 @@ MonoBehaviour:
   coverLayer:
     serializedVersion: 2
     m_Bits: 8
-  coverObjects: []
-  enemiesSpotted: []
 --- !u!114 &8336135995768983927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -677,10 +672,26 @@ MonoBehaviour:
     m_Bits: 8
   lineOfSightChecker: {fileID: 0}
   Agent: {fileID: 0}
-  HideSensitivity: 0.45
-  MinPlayerDistance: 10
-  MinObstacleHeight: 1.25
-  UpdateFrequency: 0.25
+  HideSensitivity: 0.07
+  MinPlayerDistance: 5
+  MinObstacleHeight: 1.45
+  UpdateFrequency: 0.199
+--- !u!208 &614352537701406387
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3943788788646200360}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 3, y: 1, z: 3}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &5682526473510459085
 GameObject:
   m_ObjectHideFlags: 0

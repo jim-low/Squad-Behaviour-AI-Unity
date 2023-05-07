@@ -178,7 +178,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 40
+  m_Radius: 50
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &500573480
 MonoBehaviour:
@@ -675,10 +675,10 @@ GameObject:
   - component: {fileID: 7293816147908909886}
   - component: {fileID: 8473078649270828311}
   - component: {fileID: 616126434749238082}
-  - component: {fileID: 8222982740330774793}
   - component: {fileID: 1260756688}
   - component: {fileID: 879547307}
   - component: {fileID: 879547315}
+  - component: {fileID: 1500591891336972326}
   m_Layer: 6
   m_Name: B E A N
   m_TagString: Ally
@@ -804,23 +804,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8222982740330774793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5863722560691279443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84f6c441004aaca458fc938043d4c718, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  camera: {fileID: 0}
-  floorLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  agent: {fileID: 0}
 --- !u!54 &1260756688
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -856,13 +839,9 @@ MonoBehaviour:
   ammo: 10
   canShoot: 1
   damage: 10
-  isLeader: 0
-  sightRange: 5
+  sightRange: 60
   sightAngle: 60
-  surroundingAwarenessRange: 10
-  keepDistance: 10
-  followDistance: 10
-  shootDistance: 5
+  shootDistance: 30
   allyLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -872,8 +851,6 @@ MonoBehaviour:
   coverLayer:
     serializedVersion: 2
     m_Bits: 8
-  coverObjects: []
-  enemiesSpotted: []
 --- !u!114 &879547315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -892,10 +869,26 @@ MonoBehaviour:
     m_Bits: 8
   lineOfSightChecker: {fileID: 0}
   Agent: {fileID: 0}
-  HideSensitivity: 0.38
+  HideSensitivity: 0.07
   MinPlayerDistance: 5
-  MinObstacleHeight: 1.25
-  UpdateFrequency: 0.25
+  MinObstacleHeight: 1.45
+  UpdateFrequency: 0.199
+--- !u!208 &1500591891336972326
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5863722560691279443}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 3, y: 1, z: 3}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &5022933428555562875
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.AI;
 using BehaviorTree;
 
 public class HealthBelowThreshold : Node
@@ -22,6 +22,7 @@ public class HealthBelowThreshold : Node
         if (ownData.IsLowHealth()) {
             ownData.Hide(true);
             ownData.Heal();
+            ownData.GetComponent<NavMeshAgent>().speed = 15f;
             state = NodeState.SUCCESS;
             return state;
         }

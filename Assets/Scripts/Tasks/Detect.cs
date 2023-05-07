@@ -28,6 +28,11 @@ public class Detect : Node
             return state;
         }
 
+        Transform target = (Transform)GetData(String.Format(String.Format("{0} target {1}", ownData.name, enemyLayer)));
+        if (target != null) {
+            ClearData(String.Format(String.Format("{0} target {1}", ownData.name, enemyLayer)));
+        }
+
         Collider[] enemies = Physics.OverlapSphere(transform.position, sightRange, LayerMask.GetMask(enemyLayer));
 
         float prevDistance = 0;
