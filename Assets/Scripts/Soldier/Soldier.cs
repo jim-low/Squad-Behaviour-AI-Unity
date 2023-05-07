@@ -7,13 +7,11 @@ public class Soldier : MonoBehaviour
     public Transform visor;
     public HealthBar soldierHealthBar;
 
-    private Soldier target;
-
     // gun things
     [Header("Gun Things")]
     public GameObject bulletLinePrefab;
     public Transform firePoint;
-    private GameObject bulletLine;
+    public GameObject bulletLine;
 
     [Header("Soldier Basics")]
     [Tooltip("Health of the soldier")]
@@ -22,15 +20,15 @@ public class Soldier : MonoBehaviour
     private const float MAX_HEALTH = 100;
 
     [Tooltip("Ammo of the soldier")]
-    [SerializeField] private int ammo = 10;
+    [SerializeField] public int ammo = 10;
     private const int MAX_AMMO = 10;
     private const float RELOAD_TIME = 1.5f;
-    private bool canShoot = true;
+    public bool canShoot = true;
     private const float SHOOT_RECOIL = 0.5f;
     private const float BULLET_APPEARANCE = 0.25f;
 
     [Tooltip("Damage, it does damage")]
-    [SerializeField] private float damage = 10;
+    [SerializeField] public float damage = 10;
 
     [Header("Leader")]
     [Tooltip("Determines if the current soldier is the leader of the team")]
@@ -72,105 +70,24 @@ public class Soldier : MonoBehaviour
     [Tooltip("Keeps track of spotted enemies")]
     [SerializeField] private List<Transform> enemiesSpotted;
 
-
     void Start()
     {
+        visor = gameObject.transform.Find("Visor");
         firePoint = gameObject.transform.Find("Gun").gameObject.transform.Find("FirePoint");
-        bulletLine = Instantiate(bulletLinePrefab);
+        bulletLine = Object.Instantiate(bulletLinePrefab);
         bulletLine.SetActive(false);
 
         health = 100.0f;
-        soldierHealthBar.SetMaxHealth(MAX_HEALTH);
-        soldierHealthBar.SetHealth(health);
+        /* soldierHealthBar.SetMaxHealth(MAX_HEALTH); */
+        /* soldierHealthBar.SetHealth(health); */
     }
 
-    void Update()
+    public void Recoil()
     {
-        Shoot();
+        StartCoroutine(RecoilCoroutine());
     }
 
-    private bool DetectEnemy()
-    {
-        Collider[] enemies = Physics.OverlapSphere(transform.position, sightRange, enemyLayer);
-
-        float prevDistance = 0;
-        Transform closestEnemy = null;
-        foreach (Collider enemy in enemies) {
-            if (closestEnemy == null) {
-                closestEnemy = enemy.transform;
-                prevDistance = Vector3.Distance(transform.position, enemy.transform.position);
-            }
-            else {
-                float distance = Vector3.Distance(transform.position, enemy.transform.position);
-                if (distance < prevDistance) {
-                    closestEnemy = enemy.transform;
-                    prevDistance = distance;
-                }
-            }
-        }
-
-        if (closestEnemy != null) {
-            target = closestEnemy.GetComponent<Soldier>();
-            return true;
-        }
-        return false;
-    }
-
-    private void Aim()
-    {
-        if (target == null) {
-            return;
-        }
-
-        Vector3 lookDirection = target.transform.position - transform.position;
-        Quaternion lookRotation = Quaternion.LookRotation(lookDirection);
-        transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, 2f * Time.deltaTime);
-    }
-
-    private bool Shoot()
-    {
-        if (!DetectEnemy()) {
-            return false;
-        }
-
-        Aim();
-
-        if (target == null) {
-            return false;
-        }
-
-        if (ammo <= 0) {
-            if (canShoot) {
-                StartCoroutine(Reload());
-            }
-            return false;
-        }
-
-        RaycastHit hit;
-        bool hitEnemy = Physics.Raycast(transform.position, transform.forward, out hit, shootDistance);
-        if (!hitEnemy || hit.collider.tag == "Cover") {
-            return false;
-        }
-
-        Physics.Raycast(transform.position, transform.forward, out hit, shootDistance, enemyLayer);
-        if (hit.collider != null && canShoot) {
-            hit.collider.gameObject.GetComponent<Soldier>().Damage(damage);
-
-            Vector3 oriScale = bulletLine.transform.localScale;
-            float distance = Vector3.Distance(hit.collider.transform.position, firePoint.position);
-            Quaternion bulletRotation = Quaternion.LookRotation(hit.collider.transform.position - firePoint.position);
-
-            bulletLine.transform.position = firePoint.transform.position;
-            bulletLine.transform.rotation = bulletRotation;
-            bulletLine.transform.localScale = new Vector3(oriScale.x, oriScale.y, distance);
-
-            ammo -= 1;
-            StartCoroutine(Recoil());
-        }
-        return true;
-    }
-
-    private IEnumerator Recoil()
+    private IEnumerator RecoilCoroutine()
     {
         canShoot = false;
         bulletLine.SetActive(true);
@@ -179,7 +96,12 @@ public class Soldier : MonoBehaviour
         bulletLine.SetActive(false);
     }
 
-    private IEnumerator Reload()
+    public void Reload()
+    {
+        StartCoroutine(ReloadCoroutine());
+    }
+
+    private IEnumerator ReloadCoroutine()
     {
         canShoot = false;
         yield return new WaitForSeconds(RELOAD_TIME);
@@ -216,18 +138,5 @@ public class Soldier : MonoBehaviour
 
         health += amount;
         soldierHealthBar.SetHealth(health);
-    }
-
-    // this is just drawing a bunch of things, nothing special lmao
-    void OnDrawGizmos()
-    {
-        if (isLeader)
-        {
-            Gizmos.DrawIcon(transform.position + (Vector3.up * 2f), "leader.png", true);
-        }
-
-        Gizmos.color = Color.blue; 
-        Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(sightAngle, transform.up) * visor.forward * sightRange); 
-        Gizmos.DrawRay(visor.position, Quaternion.AngleAxis(-sightAngle, transform.up) * visor.forward * sightRange); 
     }
 }
