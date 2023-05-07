@@ -87,16 +87,16 @@ public class Soldier : MonoBehaviour
         /* soldierHealthBar.SetHealth(health); */
     }
 
-    public void Recoil(Transform target)
+    public void Shoot(Transform target)
     {
         if (!canShoot) {
             return;
         }
 
-        StartCoroutine(RecoilCoroutine(target));
+        StartCoroutine(ShootCoroutine(target));
     }
 
-    private IEnumerator RecoilCoroutine(Transform target)
+    private IEnumerator ShootCoroutine(Transform target)
     {
         Vector3 oriScale = bulletLine.transform.localScale;
         float distance = Vector3.Distance(target.position, firePoint.position);
@@ -105,6 +105,8 @@ public class Soldier : MonoBehaviour
         bulletLine.transform.position = firePoint.transform.position;
         bulletLine.transform.rotation = bulletRotation;
         bulletLine.transform.localScale = new Vector3(oriScale.x, oriScale.y, distance);
+
+        target.GetComponent<Soldier>().Damage(damage);
 
         ammo -= 1;
         canShoot = false;

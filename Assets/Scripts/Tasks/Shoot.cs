@@ -29,9 +29,7 @@ public class Shoot : Node
             return state;
         }
 
-        ownData.Recoil(target);
-
-        target.GetComponent<Soldier>().Damage(ownData.GetDamage());
+        ownData.Shoot(target);
 
         state = NodeState.SUCCESS;
         return state;
