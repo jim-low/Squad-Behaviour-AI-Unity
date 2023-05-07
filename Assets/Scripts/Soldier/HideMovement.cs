@@ -53,7 +53,6 @@ public class HideMovement : MonoBehaviour
 
     private IEnumerator Hide(Transform Target)
     {
-        Debug.Log("hide is running");
         WaitForSeconds Wait = new WaitForSeconds(UpdateFrequency);
         while (true)
         {
@@ -89,7 +88,6 @@ public class HideMovement : MonoBehaviour
                     if (Vector3.Dot(hit.normal, (Target.position - hit.position).normalized) < HideSensitivity)
                     {
                         Agent.SetDestination(hit.position);
-                        Debug.Log("is this running??? UwU :OOOO");
                         break;
                     }
                     else

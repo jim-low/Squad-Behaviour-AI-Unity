@@ -22,8 +22,6 @@ public class LineOfSightChecker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("collided with " + other.gameObject.name);
-
         if (!CheckLineOfSight(other.transform))
         {
             CheckForLineOfSightCoroutine = StartCoroutine(CheckForLineOfSight(other.transform));
