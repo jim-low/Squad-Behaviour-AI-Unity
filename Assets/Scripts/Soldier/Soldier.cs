@@ -12,15 +12,19 @@ public class Soldier : MonoBehaviour
     public GameObject bulletLinePrefab;
     public Transform firePoint;
     private GameObject bulletLine;
+    private bool isLowHealth = false;
 
     // other things
     private SphereCollider lineOfSightCollider;
 
     [Header("Soldier Basics")]
     [Tooltip("Health of the soldier")]
-    [SerializeField] private float health = 100;
-    private const float MIN_HEALTH = 30;
-    private const float MAX_HEALTH = 100;
+    [SerializeField] private float health = 100f;
+    private bool isHealing = false;
+    private const float HEAL_DELAY = 0.5f;
+    private const float HEAL_AMT = 3f;
+    private const float MIN_HEALTH = 30f;
+    private const float MAX_HEALTH = 100f;
 
     [Tooltip("Ammo of the soldier")]
     [SerializeField] protected int ammo = 10;
@@ -153,7 +157,7 @@ public class Soldier : MonoBehaviour
 
     public bool IsLowHealth()
     {
-        return health <= MIN_HEALTH;
+        return isLowHealth;
     }
 
     public bool NeedReload()
@@ -171,14 +175,46 @@ public class Soldier : MonoBehaviour
         if (damage <= 0) return;
 
         health -= damage;
+        if (health <= MIN_HEALTH) {
+            isLowHealth = true;
+        }
         /* soldierHealthBar.SetHealth(health); */
     }
 
-    public void Heal(float amount)
+    public void Heal()
     {
-        if (amount <= 0) return;
+        if (isHealing || !isLowHealth) {
+            return;
+        }
 
-        health += amount;
-        soldierHealthBar.SetHealth(health);
+        StartCoroutine(HealCoroutine());
+    }
+
+    private IEnumerator HealCoroutine()
+    {
+        if (isHealing) {
+            yield return null;
+        }
+
+        health += HEAL_AMT;
+        isHealing = true;
+
+        if (health >= (MAX_HEALTH * 0.8)) {
+            isLowHealth = false;
+        }
+
+        if (health >= MAX_HEALTH) {
+            health = MAX_HEALTH;
+        }
+
+        yield return new WaitForSeconds(HEAL_DELAY);
+        isHealing = false;
+        Heal();
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, sightRange);
     }
 }

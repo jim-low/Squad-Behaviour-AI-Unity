@@ -17,6 +17,7 @@ public class HealthBelowThreshold : Node
         if (ownData.IsLowHealth()) {
             Debug.Log(ownData.gameObject.name + " is on low health!!! D:");
             ownData.Hide(true);
+            ownData.Heal();
             state = NodeState.SUCCESS;
             return state;
         }
