@@ -16,7 +16,6 @@ public class DepartingOnesLifeToTheOtherWorld : Node
     {
         if (ownData.Unalived()) {
             ownData.DieLmao();
-            Debug.Log(ownData.gameObject.name + " is dieded");
             state = NodeState.SUCCESS;
             return state;
         }

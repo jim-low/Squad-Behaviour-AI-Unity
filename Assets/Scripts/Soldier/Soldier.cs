@@ -24,7 +24,7 @@ public class Soldier : MonoBehaviour
     private bool isHealing = false;
     private const float HEAL_DELAY = 1f;
     private const float HEAL_AMT = 3f;
-    private const float MIN_HEALTH = 30f;
+    private const float MIN_HEALTH = 40f;
     private const float MAX_HEALTH = 100f;
     private bool isDied = false;
 
@@ -32,7 +32,7 @@ public class Soldier : MonoBehaviour
     [SerializeField] protected int ammo = 10;
     private const int MAX_AMMO = 10;
     private const float RELOAD_TIME = 1.5f;
-    protected bool canShoot = true;
+    public bool canShoot = true;
     private const float SHOOT_RECOIL = 0.5f;
     private const float BULLET_FLASH_SECONDS = 0.075f;
 
@@ -82,24 +82,33 @@ public class Soldier : MonoBehaviour
     void Start()
     {
         visor = gameObject.transform.Find("Visor");
+        soldierHealthBar = gameObject.transform.gameObject.transform.gameObject.transform.Find("HealthBarCanvas").gameObject.transform.gameObject.transform.Find("healthBar").GetComponent<HealthBar>();
 
-        lineOfSightCollider = gameObject.transform.Find("LineOfSightChecker").GetComponent<SphereCollider>();;
+        gameObject.transform.gameObject.transform.gameObject.transform.gameObject.transform.Find("HealthBarCanvas").GetComponent<BillBoard>().cam = GameObject.Find("Main Camera").transform.gameObject.transform.gameObject.transform.transform.transform.transform.gameObject.transform;
+
+        lineOfSightCollider = gameObject.transform.Find("LineOfSightChecker").GetComponent<SphereCollider>();
 
         firePoint = gameObject.transform.Find("Gun").gameObject.transform.Find("FirePoint");
         bulletLine = Object.Instantiate(bulletLinePrefab);
         bulletLine.SetActive(false);
 
         health = 100.0f;
-        /* soldierHealthBar.SetMaxHealth(MAX_HEALTH); */
-        /* soldierHealthBar.SetHealth(health); */
+        soldierHealthBar.SetMaxHealth(MAX_HEALTH);
+        soldierHealthBar.SetHealth(health);
+    }
+
+    public IEnumerator WaitSeconds(float time)
+    {
+        yield return new WaitForSeconds(time);
     }
 
     public void Shoot(Transform target)
     {
-        if (!canShoot || isDied) {
+        if (!canShoot || isDied || Unalived()) {
             return;
         }
 
+        canShoot = false;
         StartCoroutine(ShootCoroutine(target));
     }
 
@@ -116,7 +125,6 @@ public class Soldier : MonoBehaviour
         target.GetComponent<Soldier>().Damage(damage);
 
         ammo -= 1;
-        canShoot = false;
         bulletLine.SetActive(true);
         yield return new WaitForSeconds(BULLET_FLASH_SECONDS);
         bulletLine.SetActive(false);
@@ -162,10 +170,12 @@ public class Soldier : MonoBehaviour
             return;
         }
 
+        enabled = false;
         GetComponent<SoldierBehaviorTree>().enabled = false; // disable behaviour tree cuz it has deathed
         GetComponent<NavMeshAgent>().enabled = false; // disable Nav Mesh AI cuz ded ppl no need move
-        canShoot = false; // disable attack
+        GetComponent<HideMovement>().enabled = false; // disable hide
         Hide(false); // disable hide
+        canShoot = false; // disable attack
         transform.Rotate(0, 0, 90f); // turn it around
         isDied = true;
     }
@@ -193,8 +203,13 @@ public class Soldier : MonoBehaviour
         if (health <= MIN_HEALTH) {
             isLowHealth = true;
         }
-        /* soldierHealthBar.SetHealth(health); */
+        soldierHealthBar.SetHealth(health);
     }
+
+    /* public string GetEnemyLayerString() */
+    /* { */
+    /*     enemyLayer.ToString(); */
+    /* } */
 
     public void Heal()
     {
@@ -212,6 +227,7 @@ public class Soldier : MonoBehaviour
         }
 
         health += HEAL_AMT;
+        soldierHealthBar.SetHealth(health);
         isHealing = true;
 
         if (health >= (MAX_HEALTH * 0.8)) {
@@ -227,9 +243,8 @@ public class Soldier : MonoBehaviour
         Heal();
     }
 
-    void OnDrawGizmos()
+    public string GetEnemyLayer()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, sightRange);
+        return LayerMask.LayerToName(Mathf.RoundToInt(Mathf.Log(enemyLayer.value, 2)));
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,7 @@ public class Aim : Node
 
     public override NodeState Evaluate()
     {
-        Transform target = (Transform)GetData("target");
+        Transform target = (Transform)GetData(String.Format(String.Format("{0} target {1}", transform.name, enemyLayer)));
         if (target == null) {
             state = NodeState.FAILURE;
             return state;
