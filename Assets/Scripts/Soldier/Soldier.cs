@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Soldier : MonoBehaviour
 {
@@ -21,10 +22,11 @@ public class Soldier : MonoBehaviour
     [Tooltip("Health of the soldier")]
     [SerializeField] private float health = 100f;
     private bool isHealing = false;
-    private const float HEAL_DELAY = 0.5f;
+    private const float HEAL_DELAY = 1f;
     private const float HEAL_AMT = 3f;
     private const float MIN_HEALTH = 30f;
     private const float MAX_HEALTH = 100f;
+    private bool isDied = false;
 
     [Tooltip("Ammo of the soldier")]
     [SerializeField] protected int ammo = 10;
@@ -94,7 +96,7 @@ public class Soldier : MonoBehaviour
 
     public void Shoot(Transform target)
     {
-        if (!canShoot) {
+        if (!canShoot || isDied) {
             return;
         }
 
@@ -125,7 +127,7 @@ public class Soldier : MonoBehaviour
 
     public void Reload()
     {
-        if (!canShoot) {
+        if (!canShoot || isDied) {
             return;
         }
 
@@ -148,11 +150,24 @@ public class Soldier : MonoBehaviour
     public bool Unalived() 
     {
         if (health <= 0) {
-            // do some dying here
             return true;
         }
 
         return false;
+    }
+
+    public void DieLmao()
+    {
+        if (isDied) {
+            return;
+        }
+
+        GetComponent<SoldierBehaviorTree>().enabled = false; // disable behaviour tree cuz it has deathed
+        GetComponent<NavMeshAgent>().enabled = false; // disable Nav Mesh AI cuz ded ppl no need move
+        canShoot = false; // disable attack
+        Hide(false); // disable hide
+        transform.Rotate(0, 0, 90f); // turn it around
+        isDied = true;
     }
 
     public bool IsLowHealth()
@@ -183,7 +198,7 @@ public class Soldier : MonoBehaviour
 
     public void Heal()
     {
-        if (isHealing || !isLowHealth) {
+        if (isHealing || !isLowHealth || isDied) {
             return;
         }
 
