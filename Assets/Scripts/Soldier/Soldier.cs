@@ -35,22 +35,22 @@ public class Soldier : MonoBehaviour
 
     [Header("Sight and Awareness")]
     [Tooltip("The range of sight for the soldier")]
-    protected float sightRange;
+    public float sightRange;
 
     [Tooltip("The angle for the Field of View of the soldier")]
-    protected float sightAngle; // blue
+    public float sightAngle; // blue
 
     [Tooltip("Keeps track of surrounding objects that can be used as covers")]
-    protected float surroundingAwarenessRange; // yellow, keeps awareness of surrounding covers
+    public float surroundingAwarenessRange; // yellow, keeps awareness of surrounding covers
 
     [Tooltip("The distance that the soldier will stay away from ally soldiers")]
-    protected float keepDistance; // black
+    public float keepDistance; // black
 
     [Tooltip("The distance that the soldier will not go beyond from the Leader")]
-    protected float followDistance; // green
+    public float followDistance; // green
 
     [Tooltip("The distance for the soldier to be able to start shooting")]
-    protected float shootDistance; // red
+    public float shootDistance; // red
 
     [Header("Detection Layers")]
     [Tooltip("Layer that determines if soldier is friendly")]
