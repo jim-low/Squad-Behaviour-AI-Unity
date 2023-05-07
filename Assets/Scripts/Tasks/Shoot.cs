@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,8 +18,13 @@ public class Shoot : Node
 
     public override NodeState Evaluate()
     {
-        Transform target = (Transform)GetData("target");
+        Transform target = (Transform)GetData(String.Format(String.Format("{0} target {1}", ownData.name, enemyLayer)));
         if (target == null) {
+            state = NodeState.FAILURE;
+            return state;
+        }
+
+        if (!ownData.canShoot) {
             state = NodeState.FAILURE;
             return state;
         }

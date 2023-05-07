@@ -7,6 +7,8 @@ public class HideMovement : MonoBehaviour
 {
     [HideInInspector]
     public Transform Player;
+    [HideInInspector]
+    private Soldier bean;
     public LayerMask HidableLayers;
     public LineOfSightChecker lineOfSightChecker;
     public NavMeshAgent Agent;
@@ -26,6 +28,7 @@ public class HideMovement : MonoBehaviour
     private void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
+        bean = GetComponent<Soldier>();
         lineOfSightChecker = gameObject.transform.Find("LineOfSightChecker").GetComponent<LineOfSightChecker>();
 
         lineOfSightChecker.OnGainSight += HandleGainSight;
@@ -54,7 +57,7 @@ public class HideMovement : MonoBehaviour
     private IEnumerator Hide(Transform Target)
     {
         WaitForSeconds Wait = new WaitForSeconds(UpdateFrequency);
-        while (true)
+        while (true && !bean.Unalived())
         {
             for (int i = 0; i < Colliders.Length; i++)
             {

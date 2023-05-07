@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,9 +10,10 @@ using BehaviorTree;
 public class ChaseMovement : Node
 {
     private Soldier self;
+    private string enemyLayer;
     private NavMeshAgent navMeshAgent;
 
-    public ChaseMovement(Soldier soldier)
+    public ChaseMovement(Soldier soldier, string enemyLayer)
     {
         self = soldier;
         navMeshAgent = soldier.GetComponent<NavMeshAgent>();
@@ -19,30 +21,34 @@ public class ChaseMovement : Node
         navMeshAgent.autoBraking = true;
         navMeshAgent.speed = 7f;
         navMeshAgent.acceleration = navMeshAgent.speed * 0.25f;
-
     }
 
     public override NodeState Evaluate()
     {
-        Transform targetToChase = (Transform)GetData("target");
-        if (targetToChase == null || navMeshAgent == null)
+        if (self.Unalived()) {
+            state = NodeState.FAILURE;
+            return state;
+        }
+
+        Transform target = (Transform)GetData(String.Format(String.Format("{0} target {1}", self.name, enemyLayer)));
+        if (target == null || navMeshAgent == null)
         {
             state = NodeState.FAILURE;
             return state;
         }
 
-        if (Vector3.Distance(self.gameObject.transform.position, targetToChase.position) < navMeshAgent.stoppingDistance)
+        if (Vector3.Distance(self.gameObject.transform.position, target.position) < navMeshAgent.stoppingDistance)
         {
             navMeshAgent.velocity = Vector3.zero;
-            state = NodeState.SUCCESS;
+            state = NodeState.FAILURE;
             return state;
         }
 
         navMeshAgent.isStopped = false;
-        navMeshAgent.SetDestination(targetToChase.transform.position);
-        
+        Debug.Log(self.name + " is trying to set destination");
+        navMeshAgent.SetDestination(target.transform.position);
 
-        state = NodeState.RUNNING;
+        state = NodeState.SUCCESS;
         return state;
     }
 }

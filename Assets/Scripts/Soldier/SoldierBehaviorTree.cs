@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using BehaviorTree;
-using UnityEngine.AI;
 
 public class SoldierBehaviorTree : Tree
 {
     private Soldier ownData;
+    private string enemyLayer;
 
     void Awake()
     {
-        ownData = GetComponent<Soldier>();
+        this.ownData = GetComponent<Soldier>();
+        this.enemyLayer = ownData.GetEnemyLayer();
     }
 
     protected override Node SetupTree()
@@ -23,21 +24,21 @@ public class SoldierBehaviorTree : Tree
         });
 
         Sequence attackSequence = new Sequence(new List<Node> {
-            new Detect(ownData.transform, ownData.sightRange, ownData.sightAngle, "Enemy"),
-                new Aim(ownData.transform, ownData.shootDistance, "Enemy"),
-                new Shoot(ownData, "Enemy"),
+            new Detect(ownData, ownData.transform, ownData.sightRange, ownData.sightAngle, enemyLayer),
+                new Aim(ownData.transform, ownData.shootDistance, enemyLayer),
+                new Shoot(ownData, enemyLayer),
         });
 
         Sequence chaseSequence = new Sequence(new List<Node> {
-            new Detect(ownData.transform, ownData.sightRange, ownData.sightAngle, "Enemy"),
-            new ChaseMovement(ownData),
+            new Detect(ownData, ownData.transform, ownData.sightRange, ownData.sightAngle, enemyLayer),
+            new ChaseMovement(ownData, enemyLayer),
         });
 
         Node root = new Selector(new List<Node> {
             dieSequence,
                 retreatSequence,
+                chaseSequence,
                 attackSequence,
-                chaseSequence
         });
         return root;
     }
