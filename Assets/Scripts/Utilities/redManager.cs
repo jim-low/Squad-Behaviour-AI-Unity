@@ -5,20 +5,28 @@ using UnityEngine;
 public class redManager : MonoBehaviour
 {
     private GameObject[] allReds;
+    private Soldier[] allRedSoldiers;
 
-    //public void ReduceHP() {
+    //public void ReduceHP()
+    //{
     //    allReds = GameObject.FindGameObjectsWithTag("Ally");
 
-    //    foreach (GameObject red in allReds) 
+    //    allRedSoldiers = new Soldier[allReds.Length];
+    //    for (int i = 0; i < allReds.Length ; i++)
     //    {
-    //        red.GetComponent<Soldier>().;
-    //        (Soldier)red.health -= ((Soldier)red.MAX_HEALTH * 0.1);
-    //        (Soldier)red.SetHealth(health);
+    //        allRedSoldiers[i] = allReds[i].GetComponent<Soldier>();
     //    }
-            
+
+    //    foreach (Soldier soldier in allRedSoldiers) 
+    //    {
+    //        soldier.health -= (red.MAX_HEALTH * 0.1);
+    //        soldier.soldierHealthBar.SetHealth(health);
+    //    }
+
     //}
 
-    //public void HealToFull() { 
-    
+    //public void HealToFull()
+    //{
+
     //}
 }
