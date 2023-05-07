@@ -20,9 +20,9 @@ public class blackManager : MonoBehaviour
 
         foreach (Soldier soldier in allBlackSoldiers)
         {
-            currentHealth = (soldier.getHealth() - ((float)(soldier.getMaxHealth() * 0.1)));
-            soldier.setHealth(currentHealth);
-            soldier.setHealthBar(currentHealth);
+            /* currentHealth = (soldier.getHealth() - ((float)(soldier.getMaxHealth() * 0.1))); */
+            soldier.Damage((float)(soldier.getMaxHealth() * 0.1));
+            /* soldier.setHealthBar(currentHealth); */
         }
 
     }

@@ -162,6 +162,18 @@ public class Soldier : MonoBehaviour
         isDied = true;
     }
 
+    public void Reset()
+    {
+        enabled = true;
+        GetComponent<SoldierBehaviorTree>().enabled = true;
+        GetComponent<NavMeshAgent>().enabled = true;
+        GetComponent<HideMovement>().enabled = true;
+        Hide(true);
+        canShoot = true;
+        transform.Rotate(0, 0, 0);
+        isDied = false;
+    }
+
     public bool IsLowHealth()
     {
         return isLowHealth;
@@ -187,11 +199,6 @@ public class Soldier : MonoBehaviour
         }
         soldierHealthBar.SetHealth(health);
     }
-
-    /* public string GetEnemyLayerString() */
-    /* { */
-    /*     enemyLayer.ToString(); */
-    /* } */
 
     public void Heal()
     {
