@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class EnemyMovement : MonoBehaviour
+public class HideMovement : MonoBehaviour
 {
     [HideInInspector]
     public Transform Player;
@@ -26,6 +26,7 @@ public class EnemyMovement : MonoBehaviour
     private void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
+        lineOfSightChecker = gameObject.transform.Find("LineOfSightChecker").GetComponent<LineOfSightChecker>();
 
         lineOfSightChecker.OnGainSight += HandleGainSight;
         lineOfSightChecker.OnLoseSight += HandleLoseSight;
@@ -52,6 +53,7 @@ public class EnemyMovement : MonoBehaviour
 
     private IEnumerator Hide(Transform Target)
     {
+        Debug.Log("hide is running");
         WaitForSeconds Wait = new WaitForSeconds(UpdateFrequency);
         while (true)
         {
@@ -87,6 +89,7 @@ public class EnemyMovement : MonoBehaviour
                     if (Vector3.Dot(hit.normal, (Target.position - hit.position).normalized) < HideSensitivity)
                     {
                         Agent.SetDestination(hit.position);
+                        Debug.Log("is this running??? UwU :OOOO");
                         break;
                     }
                     else

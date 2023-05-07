@@ -15,13 +15,15 @@ public class HealthBelowThreshold : Node
     public override NodeState Evaluate()
     {
         if (ownData.IsLowHealth()) {
+            Debug.Log(ownData.gameObject.name + " is on low health!!! D:");
             ownData.Hide(true);
             state = NodeState.SUCCESS;
             return state;
         }
 
+        Debug.Log(ownData.gameObject.name + " is good fam");
         ownData.Hide(false);
-        state = NodeState.RUNNING;
+        state = NodeState.FAILURE;
         return state;
     }
 }

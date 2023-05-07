@@ -28,6 +28,7 @@ public class Soldier : MonoBehaviour
     private const float RELOAD_TIME = 1.5f;
     protected bool canShoot = true;
     private const float SHOOT_RECOIL = 0.5f;
+    private const float BULLET_FLASH_SECONDS = 0.075f;
 
     [Tooltip("Damage, it does damage")]
     [SerializeField] protected float damage = 10;
@@ -111,10 +112,11 @@ public class Soldier : MonoBehaviour
         ammo -= 1;
         canShoot = false;
         bulletLine.SetActive(true);
+        yield return new WaitForSeconds(BULLET_FLASH_SECONDS);
+        bulletLine.SetActive(false);
 
         yield return new WaitForSeconds(SHOOT_RECOIL);
         canShoot = true;
-        bulletLine.SetActive(false);
     }
 
     public void Reload()

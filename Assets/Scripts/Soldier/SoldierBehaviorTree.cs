@@ -24,7 +24,8 @@ public class SoldierBehaviorTree : Tree
         });
 
         Node root = new Selector(new List<Node> {
-            attackSequence,
+            retreatSequence,
+                attackSequence,
         });
         return root;
     }
