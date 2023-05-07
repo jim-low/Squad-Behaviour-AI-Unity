@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -533,7 +533,7 @@ GameObject:
   - component: {fileID: 119680849}
   - component: {fileID: 119680848}
   m_Layer: 5
-  m_Name: downButtonHP
+  m_Name: healToFullR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -603,7 +603,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 119680849}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1579752018}
+        m_TargetAssemblyTypeName: redManager, Assembly-CSharp
+        m_MethodName: HealToFull
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &119680849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1005,6 +1017,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2123878075}
     m_Modifications:
+    - target: {fileID: 22267755, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22267755, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1377446640, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -1167,7 +1187,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Reset
 --- !u!222 &274508893
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1466,6 +1486,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2123878075}
     m_Modifications:
+    - target: {fileID: 22267755, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22267755, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1377446640, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -2258,7 +2286,7 @@ GameObject:
   - component: {fileID: 982398903}
   - component: {fileID: 982398902}
   m_Layer: 5
-  m_Name: upButtonHP
+  m_Name: reduceHPB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2328,7 +2356,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 982398903}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1579752019}
+        m_TargetAssemblyTypeName: blackManager, Assembly-CSharp
+        m_MethodName: ReduceHP
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &982398903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3693,6 +3733,76 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5874989010164575379}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1579752015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1579752017}
+  - component: {fileID: 1579752016}
+  - component: {fileID: 1579752018}
+  - component: {fileID: 1579752019}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1579752016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579752015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df6a79a32da1cbf4ca5ee9992e5ea99d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1579752017
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579752015}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 959.469, y: 318.06406, z: -76.9931}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1579752018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579752015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94c412b182ed9314cb6870c1684c3e87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1579752019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579752015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f22b94da891716419efea7e8f2659ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1586269424
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4065,7 +4175,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1641648634}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1579752016}
+        m_TargetAssemblyTypeName: resetScene, Assembly-CSharp
+        m_MethodName: reset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1641648634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4117,7 +4239,7 @@ GameObject:
   - component: {fileID: 1648231656}
   - component: {fileID: 1648231655}
   m_Layer: 5
-  m_Name: downButtonHP
+  m_Name: healToFullB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4187,7 +4309,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1648231656}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1579752019}
+        m_TargetAssemblyTypeName: blackManager, Assembly-CSharp
+        m_MethodName: HealToFull
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1648231656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4451,7 +4585,7 @@ GameObject:
   - component: {fileID: 1747470220}
   - component: {fileID: 1747470219}
   m_Layer: 5
-  m_Name: upButtonHP
+  m_Name: reduceHPR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4521,7 +4655,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1747470220}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1579752018}
+        m_TargetAssemblyTypeName: redManager, Assembly-CSharp
+        m_MethodName: ReduceHP
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1747470220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4662,6 +4808,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2123878075}
     m_Modifications:
+    - target: {fileID: 22267755, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22267755, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1377446640, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -5066,6 +5220,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2123878075}
     m_Modifications:
+    - target: {fileID: 22267755, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22267755, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1377446640, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -5164,6 +5326,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2123878075}
     m_Modifications:
+    - target: {fileID: 22267755, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22267755, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1377446640, guid: 19e2afda5e6bdb347a4a1be744ce949d, type: 3}
       propertyPath: m_Layer
       value: 0

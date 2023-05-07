@@ -73,8 +73,8 @@ public class Soldier : MonoBehaviour
         bulletLine.SetActive(false);
 
         health = 100.0f;
-        soldierHealthBar.SetMaxHealth(MAX_HEALTH);
-        soldierHealthBar.SetHealth(health);
+        //soldierHealthBar.SetMaxHealth(MAX_HEALTH);
+        //soldierHealthBar.SetHealth(health);
     }
 
     public IEnumerator WaitSeconds(float time)
@@ -223,6 +223,25 @@ public class Soldier : MonoBehaviour
         yield return new WaitForSeconds(HEAL_DELAY);
         isHealing = false;
         Heal();
+    }
+
+    public void setHealth(float health) {
+        this.health = health;
+    }
+
+    public void setHealthBar(float health)
+    {
+        this.soldierHealthBar.SetHealth(health);
+    }
+
+    public float getHealth()
+    {
+        return health;
+    }
+
+    public float getMaxHealth()
+    {
+        return MAX_HEALTH;
     }
 
     public string GetEnemyLayer()
