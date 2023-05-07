@@ -41,23 +41,18 @@ namespace BehaviorTree
         public void SetData(string key, object value)
         {
             _dataContext[key] = value;
-            Debug.Log(_dataContext.Count);
         }
 
         public object GetData(string key)
         {
-            Debug.Log("_dataContext count: " + _dataContext.Count);
-
             object val = null;
             if (_dataContext.TryGetValue(key, out val)) {
-                Debug.Log(val);
                 return val;
             }
 
             Node node = parent;
             while (node != null) {
                 val = node.GetData(key);
-                Debug.Log(val);
                 if (val != null)
                     return val;
 

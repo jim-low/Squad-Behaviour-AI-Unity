@@ -13,6 +13,9 @@ public class Soldier : MonoBehaviour
     public Transform firePoint;
     private GameObject bulletLine;
 
+    // other things
+    private SphereCollider lineOfSightCollider;
+
     [Header("Soldier Basics")]
     [Tooltip("Health of the soldier")]
     [SerializeField] private float health = 100;
@@ -72,6 +75,9 @@ public class Soldier : MonoBehaviour
     void Start()
     {
         visor = gameObject.transform.Find("Visor");
+
+        lineOfSightCollider = gameObject.transform.Find("LineOfSightChecker").GetComponent<SphereCollider>();;
+
         firePoint = gameObject.transform.Find("Gun").gameObject.transform.Find("FirePoint");
         bulletLine = Object.Instantiate(bulletLinePrefab);
         bulletLine.SetActive(false);
@@ -83,6 +89,10 @@ public class Soldier : MonoBehaviour
 
     public void Recoil(Transform target)
     {
+        if (!canShoot) {
+            return;
+        }
+
         StartCoroutine(RecoilCoroutine(target));
     }
 
@@ -107,6 +117,10 @@ public class Soldier : MonoBehaviour
 
     public void Reload()
     {
+        if (!canShoot) {
+            return;
+        }
+
         StartCoroutine(ReloadCoroutine());
     }
 
@@ -116,6 +130,11 @@ public class Soldier : MonoBehaviour
         yield return new WaitForSeconds(RELOAD_TIME);
         ammo = MAX_AMMO;
         canShoot = true;
+    }
+
+    public void Hide(bool startHide)
+    {
+        lineOfSightCollider.enabled = startHide;
     }
 
     public bool Unalived() 
@@ -148,7 +167,7 @@ public class Soldier : MonoBehaviour
         if (damage <= 0) return;
 
         health -= damage;
-        soldierHealthBar.SetHealth(health);
+        /* soldierHealthBar.SetHealth(health); */
     }
 
     public void Heal(float amount)
